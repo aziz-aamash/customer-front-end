@@ -54,7 +54,7 @@
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
 
-  /* ═══ HEADER / NAV ═══ */
+ /* ═══ HEADER / NAV ═══ */
   header {
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
     background: var(--nav-bg);
@@ -139,7 +139,6 @@
   .theme-toggle:hover { background: var(--cyan-glow); transform: rotate(20deg); }
   .theme-toggle svg { width: 18px; height: 18px; }
 
-  /* ── CART ICON ── */
   .cart-icon-btn {
     position: relative;
     width: 42px; height: 42px; border-radius: 50%;
@@ -169,6 +168,37 @@
   }
   .btn-signin:hover { background: var(--cyan-dim); box-shadow: 0 0 20px rgba(6,182,212,0.5); transform: translateY(-1px); }
   .btn-signin svg { width: 16px; height: 16px; }
+
+
+  .btn-primary {
+    padding: 14px 32px;
+    background: var(--cyan);
+    color: #fff;
+    border-radius: 30px;
+    font-weight: 600; font-size: 0.95rem;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    box-shadow: 0 0 28px rgba(6,182,212,0.35);
+    cursor: pointer;
+    border: none;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-primary:hover {
+    background: var(--cyan-dim);
+    box-shadow: 0 0 40px rgba(6,182,212,0.55);
+    transform: translateY(-2px);
+  }
+  .btn-ghost {
+    padding: 13px 28px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 30px;
+    font-weight: 500; font-size: 0.95rem;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-ghost:hover { border-color: var(--cyan); background: var(--cyan-glow); color: var(--cyan); }
 
 
   .breadcrumb {
@@ -498,7 +528,6 @@
     font-size: 0.75rem; color: #9CA3AF;
     display: flex; align-items: center; gap: 5px;
   }
-
   .btt {
     position: fixed; bottom: 28px; right: 28px; z-index: 500;
     width: 44px; height: 44px; border-radius: 50%;
