@@ -737,80 +737,50 @@ if (document.readyState === 'loading') {
 let PROJECTS_CACHE = null;
 
 const PROJECT_CATEGORIES = [
-  { id: 'fyp', name: 'Final Year Projects', emoji: '🎓', count: 18, description: 'Complete FYP solutions' },
-  { id: 'arduino-projects', name: 'Arduino Projects', emoji: '🔌', count: 24, description: 'Mini & semester builds' },
-  { id: 'iot', name: 'IoT Projects', emoji: '📡', count: 15, description: 'Connected device builds' },
-  { id: 'robotics-projects', name: 'Robotics Projects', emoji: '🤖', count: 12, description: 'Autonomous & remote bots' },
-  { id: 'drone-projects', name: 'Drone Projects', emoji: '🚁', count: 9, description: 'Custom-built quadcopters' },
-  { id: '3dprint-projects', name: '3D Printing Projects', emoji: '🖨️', count: 10, description: 'Printed mechanisms & models' },
-  { id: 'smarthome-projects', name: 'Smart Home Projects', emoji: '🏠', count: 11, description: 'Home automation builds' },
+  {
+    id: 'university',
+    name: 'University Level Projects',
+    emoji: '🎓',
+    description: 'Final Year Projects, Semester Projects, and Academic Research',
+    subcategories: [
+      { id: 'fyp', name: 'Final Year Projects', emoji: '🎓', count: 5, description: 'Complete FYP solutions' },
+      { id: 'arduino-projects', name: 'Arduino Projects', emoji: '🔌', count: 4, description: 'Mini & semester builds' },
+      { id: 'iot', name: 'IoT Projects', emoji: '📡', count: 3, description: 'Connected device builds' },
+      { id: 'robotics-projects', name: 'Robotics Projects', emoji: '🤖', count: 2, description: 'Autonomous & remote bots' },
+      { id: 'drone-projects', name: 'Drone Projects', emoji: '🚁', count: 2, description: 'Custom-built quadcopters' },
+      { id: '3dprint-projects', name: '3D Printing Projects', emoji: '🖨️', count: 2, description: 'Printed mechanisms & models' },
+      { id: 'smarthome-projects', name: 'Smart Home Projects', emoji: '🏠', count: 2, description: 'Home automation builds' },
+    ]
+  },
+  {
+    id: 'commercial',
+    name: 'Commercial Level Projects',
+    emoji: '💼',
+    description: 'Industrial Solutions, Enterprise Applications, and Commercial Deployments',
+    subcategories: [
+      { id: 'iot-commercial', name: 'Industrial IoT', emoji: '📡', count: 2, description: 'Enterprise monitoring & control' },
+      { id: 'robotics-commercial', name: 'Industrial Automation', emoji: '⚙️', count: 2, description: 'Manufacturing automation' },
+      { id: 'drone-commercial', name: 'Commercial Drones', emoji: '🚁', count: 2, description: 'Delivery & inspection systems' },
+      { id: '3dprint-commercial', name: 'Industrial 3D Printing', emoji: '🖨️', count: 2, description: 'Production-scale solutions' },
+      { id: 'smarthome-commercial', name: 'Smart Buildings', emoji: '🏢', count: 2, description: 'Enterprise building management' },
+    ]
+  }
 ];
 
 const PROJECTS = [
-  {
-    id: 'pr1', categoryId: 'fyp', category: 'Final Year Projects', emoji: '🎓',
-    name: 'Smart Agriculture Monitoring System', difficulty: 'Advanced', duration: '6–8 Weeks',
-    rating: 4.8, reviews: 142, badge: 'POPULAR',
-    description: 'A complete FYP-ready system that monitors soil moisture, temperature, and humidity, then automates irrigation through a cloud dashboard.',
-    components: ['ESP32 Dev Board', 'Soil Moisture Sensor', 'DHT22', 'Relay Module', 'Water Pump'],
-    features: ['Cloud Dashboard', 'Auto Irrigation', 'Mobile Alerts', 'Solar-Powered Option']
-  },
-  {
-    id: 'pr2', categoryId: 'arduino-projects', category: 'Arduino Projects', emoji: '🔌',
-    name: 'Obstacle-Avoiding Robot Car', difficulty: 'Beginner', duration: '1–2 Weeks',
-    rating: 4.6, reviews: 318, badge: 'NEW',
-    description: 'A classic semester project: an Arduino-driven car that detects obstacles with an ultrasonic sensor and reroutes itself automatically.',
-    components: ['Arduino Uno', 'Ultrasonic Sensor', 'L298N Motor Driver', 'Chassis Kit', '4x DC Motors'],
-    features: ['Auto Obstacle Detection', 'Beginner-Friendly Wiring', 'Open-Source Code', 'Battery Powered']
-  },
-  {
-    id: 'pr3', categoryId: 'iot', category: 'IoT Projects', emoji: '📡',
-    name: 'Home Energy Usage Tracker', difficulty: 'Intermediate', duration: '3–4 Weeks',
-    rating: 4.7, reviews: 96, badge: null,
-    description: 'Track real-time power consumption of household appliances and view usage trends through a live IoT web dashboard.',
-    components: ['ESP8266 NodeMCU', 'Current Sensor (ACS712)', 'Voltage Sensor', 'OLED Display'],
-    features: ['Live Web Dashboard', 'Usage Alerts', 'Historical Graphs', 'Wi-Fi Connectivity']
-  },
-  {
-    id: 'pr4', categoryId: 'robotics-projects', category: 'Robotics Projects', emoji: '🤖',
-    name: 'Robotic Arm with Gesture Control', difficulty: 'Advanced', duration: '5–7 Weeks',
-    rating: 4.9, reviews: 71, badge: 'POPULAR',
-    description: 'A 4-DOF robotic arm controlled wirelessly through hand gestures captured by an accelerometer-equipped glove.',
-    components: ['Arduino Mega', '4x Servo Motors', 'MPU6050 Gyroscope', 'NRF24L01 RF Module', '3D-Printed Arm'],
-    features: ['Gesture-Based Control', 'Wireless Operation', '4 Degrees of Freedom', 'Smooth PWM Motion']
-  },
-  {
-    id: 'pr5', categoryId: 'drone-projects', category: 'Drone Projects', emoji: '🚁',
-    name: 'Custom FPV Racing Quadcopter', difficulty: 'Advanced', duration: '4–6 Weeks',
-    rating: 4.8, reviews: 58, badge: 'NEW',
-    description: 'Build a lightweight, agile FPV racing drone from scratch with a tuned flight controller and live first-person video feed.',
-    components: ['F4 Flight Controller', '4x Brushless Motors', 'FPV Camera & VTX', 'Carbon Fiber Frame', 'LiPo Battery'],
-    features: ['Live FPV Feed', 'Tunable PID Flight', 'Lightweight Frame', 'Racing-Grade Speed']
-  },
-  {
-    id: 'pr6', categoryId: '3dprint-projects', category: '3D Printing Projects', emoji: '🖨️',
-    name: 'Articulated Prosthetic Hand', difficulty: 'Intermediate', duration: '3–5 Weeks',
-    rating: 4.7, reviews: 84, badge: null,
-    description: 'A fully 3D-printed, tendon-actuated prosthetic hand prototype, ideal for biomedical engineering FYPs and research demos.',
-    components: ['PLA/PETG Filament', 'Fishing Line (Tendons)', 'Servo Motors', 'Flex Sensors', 'Microcontroller'],
-    features: ['Tendon-Driven Fingers', 'Flex Sensor Control', 'Lightweight Printed Parts', 'Modular Design']
-  },
-  {
-    id: 'pr7', categoryId: 'smarthome-projects', category: 'Smart Home Projects', emoji: '🏠',
-    name: 'Voice-Controlled Home Automation Hub', difficulty: 'Intermediate', duration: '3–4 Weeks',
-    rating: 4.6, reviews: 203, badge: 'POPULAR',
-    description: 'Control lights, fans, and appliances using voice commands and a mobile app, built around a central Wi-Fi automation hub.',
-    components: ['ESP32', 'Relay Modules', 'Mic Module', 'Mobile App (Blynk)', 'Wi-Fi Router'],
-    features: ['Voice Commands', 'Mobile App Control', 'Schedule Automation', 'Multi-Device Support']
-  },
-  {
-    id: 'pr8', categoryId: 'iot', category: 'IoT Projects', emoji: '📡',
-    name: 'IoT-Based Smart Parking System', difficulty: 'Intermediate', duration: '4–5 Weeks',
-    rating: 4.5, reviews: 67, badge: null,
-    description: 'Detect free parking slots using IR sensors and display real-time availability on a web app and entrance LED board.',
-    components: ['Arduino Uno', 'IR Sensors', 'ESP8266', 'LED Matrix Display', 'Cloud Database'],
-    features: ['Real-Time Slot Detection', 'Web Dashboard', 'LED Entrance Display', 'Scalable to Multi-Floor']
-  },
+  { id: 'pr1', level: 'university', levelId: 'university', categoryId: 'fyp', category: 'Final Year Projects', emoji: '🎓', name: 'Smart Agriculture Monitoring System', difficulty: 'Advanced', duration: '6–8 Weeks', rating: 4.8, reviews: 142, badge: 'POPULAR', description: 'A complete FYP-ready system that monitors soil moisture, temperature, and humidity, then automates irrigation through a cloud dashboard.', components: ['ESP32 Dev Board', 'Soil Moisture Sensor', 'DHT22', 'Relay Module', 'Water Pump'], features: ['Cloud Dashboard', 'Auto Irrigation', 'Mobile Alerts', 'Solar-Powered Option'] },
+  { id: 'pr2', level: 'university', levelId: 'university', categoryId: 'arduino-projects', category: 'Arduino Projects', emoji: '🔌', name: 'Obstacle-Avoiding Robot Car', difficulty: 'Beginner', duration: '1–2 Weeks', rating: 4.6, reviews: 318, badge: 'NEW', description: 'A classic semester project: an Arduino-driven car that detects obstacles with an ultrasonic sensor and reroutes itself automatically.', components: ['Arduino Uno', 'Ultrasonic Sensor', 'L298N Motor Driver', 'Chassis Kit', '4x DC Motors'], features: ['Auto Obstacle Detection', 'Beginner-Friendly Wiring', 'Open-Source Code', 'Battery Powered'] },
+  { id: 'pr3', level: 'university', levelId: 'university', categoryId: 'iot', category: 'IoT Projects', emoji: '📡', name: 'Home Energy Usage Tracker', difficulty: 'Intermediate', duration: '3–4 Weeks', rating: 4.7, reviews: 96, badge: null, description: 'Track real-time power consumption of household appliances and view usage trends through a live IoT web dashboard.', components: ['ESP8266 NodeMCU', 'Current Sensor (ACS712)', 'Voltage Sensor', 'OLED Display'], features: ['Live Web Dashboard', 'Usage Alerts', 'Historical Graphs', 'Wi-Fi Connectivity'] },
+  { id: 'pr4', level: 'university', levelId: 'university', categoryId: 'robotics-projects', category: 'Robotics Projects', emoji: '🤖', name: 'Robotic Arm with Gesture Control', difficulty: 'Advanced', duration: '5–7 Weeks', rating: 4.9, reviews: 71, badge: 'POPULAR', description: 'A 4-DOF robotic arm controlled wirelessly through hand gestures captured by an accelerometer-equipped glove.', components: ['Arduino Mega', '4x Servo Motors', 'MPU6050 Gyroscope', 'NRF24L01 RF Module', '3D-Printed Arm'], features: ['Gesture-Based Control', 'Wireless Operation', '4 Degrees of Freedom', 'Smooth PWM Motion'] },
+  { id: 'pr5', level: 'university', levelId: 'university', categoryId: 'drone-projects', category: 'Drone Projects', emoji: '🚁', name: 'Custom FPV Racing Quadcopter', difficulty: 'Advanced', duration: '4–6 Weeks', rating: 4.8, reviews: 58, badge: 'NEW', description: 'Build a lightweight, agile FPV racing drone from scratch with a tuned flight controller and live first-person video feed.', components: ['F4 Flight Controller', '4x Brushless Motors', 'FPV Camera & VTX', 'Carbon Fiber Frame', 'LiPo Battery'], features: ['Live FPV Feed', 'Tunable PID Flight', 'Lightweight Frame', 'Racing-Grade Speed'] },
+  { id: 'pr6', level: 'university', levelId: 'university', categoryId: '3dprint-projects', category: '3D Printing Projects', emoji: '🖨️', name: 'Articulated Prosthetic Hand', difficulty: 'Intermediate', duration: '3–5 Weeks', rating: 4.7, reviews: 84, badge: null, description: 'A fully 3D-printed, tendon-actuated prosthetic hand prototype, ideal for biomedical engineering FYPs and research demos.', components: ['PLA/PETG Filament', 'Fishing Line (Tendons)', 'Servo Motors', 'Flex Sensors', 'Microcontroller'], features: ['Tendon-Driven Fingers', 'Flex Sensor Control', 'Lightweight Printed Parts', 'Modular Design'] },
+  { id: 'pr7', level: 'university', levelId: 'university', categoryId: 'smarthome-projects', category: 'Smart Home Projects', emoji: '🏠', name: 'Voice-Controlled Home Automation Hub', difficulty: 'Intermediate', duration: '3–4 Weeks', rating: 4.6, reviews: 203, badge: 'POPULAR', description: 'Control lights, fans, and appliances using voice commands and a mobile app, built around a central Wi-Fi automation hub.', components: ['ESP32', 'Relay Modules', 'Mic Module', 'Mobile App (Blynk)', 'Wi-Fi Router'], features: ['Voice Commands', 'Mobile App Control', 'Schedule Automation', 'Multi-Device Support'] },
+  { id: 'pr8', level: 'university', levelId: 'university', categoryId: 'iot', category: 'IoT Projects', emoji: '📡', name: 'IoT-Based Smart Parking System', difficulty: 'Intermediate', duration: '4–5 Weeks', rating: 4.5, reviews: 67, badge: null, description: 'Detect free parking slots using IR sensors and display real-time availability on a web app and entrance LED board.', components: ['Arduino Uno', 'IR Sensors', 'ESP8266', 'LED Matrix Display', 'Cloud Database'], features: ['Real-Time Slot Detection', 'Web Dashboard', 'LED Entrance Display', 'Scalable to Multi-Floor'] },
+  { id: 'pr9', level: 'commercial', levelId: 'commercial', categoryId: 'iot-commercial', category: 'Industrial IoT', emoji: '📡', name: 'Industrial Temperature Monitoring System', difficulty: 'Intermediate', duration: '4–6 Weeks', rating: 4.8, reviews: 267, badge: 'POPULAR', description: 'Enterprise-grade temperature monitoring system for factories, warehouses, and data centers with real-time alerts and predictive analytics.', components: ['Industrial Temperature Sensors (PT100)', 'Data Logger', 'WiFi/4G Modem', 'Cloud Platform', 'Power Backup'], features: ['Real-Time Monitoring', 'Predictive Maintenance', 'Cloud Analytics', 'Mobile & Web Dashboard'] },
+  { id: 'pr10', level: 'commercial', levelId: 'commercial', categoryId: 'robotics-commercial', category: 'Industrial Automation', emoji: '⚙️', name: 'Automated Manufacturing Conveyor System', difficulty: 'Advanced', duration: '8–12 Weeks', rating: 4.9, reviews: 445, badge: 'POPULAR', description: 'Industrial conveyor system with PLC control, barcode scanning, and automated sorting for manufacturing and logistics operations.', components: ['Industrial PLC', 'Stepper Motors', 'Barcode/RFID Scanners', 'Vision System', 'Touchscreen HMI'], features: ['High-Speed Processing', 'Quality Control', 'Production Analytics', 'Remote Monitoring'] },
+  { id: 'pr11', level: 'commercial', levelId: 'commercial', categoryId: 'drone-commercial', category: 'Commercial Drones', emoji: '🚁', name: 'Autonomous Drone Delivery System', difficulty: 'Advanced', duration: '12–16 Weeks', rating: 4.7, reviews: 189, badge: null, description: 'Autonomous drone delivery system with GPS navigation, obstacle avoidance, payload management, and flight path optimization.', components: ['Professional Flight Controller', 'LiDAR/Radar Sensors', 'RTK GPS Module', 'Industrial Motors', '4G Telemetry'], features: ['Autonomous Flight', 'Obstacle Avoidance', 'Real-Time Tracking', 'Weather Resistance'] },
+  { id: 'pr12', level: 'commercial', levelId: 'commercial', categoryId: '3dprint-commercial', category: 'Industrial 3D Printing', emoji: '🖨️', name: 'Industrial 3D Printing Farm Management', difficulty: 'Advanced', duration: '10–14 Weeks', rating: 4.8, reviews: 156, badge: 'POPULAR', description: 'Multi-printer management system for industrial 3D printing with automated job scheduling, material tracking, and quality control.', components: ['4x Industrial 3D Printers', 'Material Management System', 'IoT Sensors', 'Cooling System', 'Cloud Dashboard'], features: ['Multi-Printer Orchestration', 'Material Inventory', 'Quality Assurance', 'Production Analytics'] },
+  { id: 'pr13', level: 'commercial', levelId: 'commercial', categoryId: 'smarthome-commercial', category: 'Smart Buildings', emoji: '🏢', name: 'Enterprise Smart Building System', difficulty: 'Advanced', duration: '14–18 Weeks', rating: 4.9, reviews: 234, badge: 'POPULAR', description: 'Enterprise-grade smart building solution integrating HVAC, lighting, security, occupancy management, and energy optimization.', components: ['Building Management System', 'Wireless Sensor Network', 'HVAC Controllers', 'Security Integration', 'Analytics Engine'], features: ['Building Automation', 'Energy Optimization', 'Occupancy Analytics', 'Predictive Maintenance'] },
 ];
 
 async function loadProjects() {
@@ -825,6 +795,18 @@ async function loadProjects() {
 
   PROJECTS_CACHE = { categories: PROJECT_CATEGORIES, projects: PROJECTS };
   return PROJECTS_CACHE;
+}
+
+// Get projects filtered by level (university or commercial)
+async function getProjectsByLevel(level) {
+  const { projects } = await loadProjects();
+  return projects.filter(p => p.level === level);
+}
+
+// Get projects filtered by category subcategory (e.g., 'iot', 'fyp', 'iot-commercial')
+async function getProjectsByCategory(categoryId) {
+  const { projects } = await loadProjects();
+  return projects.filter(p => p.categoryId === categoryId);
 }
 
 async function getProjectById(id) {
