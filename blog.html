@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blog – Vision Giants</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cyan: #06B6D4;
+    --cyan-dim: #0891B2;
+    --cyan-glow: rgba(6,182,212,0.18);
+    --white: #FFFFFF;
+    --gray: #E5E7EB;
+    --gray-mid: #9CA3AF;
+  }
+  [data-theme="dark"] {
+    --bg: #111827;
+    --bg2: #1F2937;
+    --bg3: #374151;
+    --text: #F9FAFB;
+    --text-sub: #D1D5DB;
+    --border: rgba(6,182,212,0.2);
+    --card: #1F2937;
+    --nav-bg: rgba(17,24,39,0.92);
+    --footer-bg: #0B0F1A;
+  }
+  [data-theme="light"] {
+    --bg: #F0F9FF;
+    --bg2: #FFFFFF;
+    --bg3: #E5E7EB;
+    --text: #111827;
+    --text-sub: #374151;
+    --border: rgba(6,182,212,0.3);
+    --card: #FFFFFF;
+    --nav-bg: rgba(240,249,255,0.92);
+    --footer-bg: #111827;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.35s, color 0.35s;
+    overflow-x: hidden;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+  button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
+
+  /* ═══ HEADER / NAV ═══ */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: var(--nav-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.35s;
+  }
+  .nav-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; gap: 32px;
+    padding: 0 32px; height: 68px;
+  }
+  .nav-end {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-img { width: 36px; height: 36px; }
+  .logo-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 1.15rem;
+    color: var(--white); letter-spacing: 0.05em; white-space: nowrap;
+  }
+  [data-theme="light"] .logo-text { color: #111827; }
+  .logo-text span { color: var(--cyan); }
+
+  .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+  .nav-links li { position: relative; }
+  .nav-links a {
+    display: flex; align-items: center; gap: 5px;
+    padding: 8px 14px; font-size: 0.9rem; font-weight: 500;
+    color: var(--text-sub); border-radius: 8px;
+    transition: color 0.2s, background 0.2s; white-space: nowrap;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--cyan); background: var(--cyan-glow); }
+
+  .theme-toggle {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cyan); transition: background 0.2s, transform 0.2s; flex-shrink: 0;
+  }
+  .theme-toggle:hover { background: var(--cyan-glow); transform: rotate(20deg); }
+  .theme-toggle svg { width: 18px; height: 18px; }
+
+  .cart-icon-btn {
+    position: relative;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text); transition: background 0.2s, border-color 0.2s;
+    flex-shrink: 0; text-decoration: none;
+  }
+  .cart-icon-btn:hover { background: var(--cyan-glow); border-color: var(--cyan); color: var(--cyan); }
+  .cart-icon-btn svg { width: 20px; height: 20px; }
+  .cartCount {
+    position: absolute; top: -5px; right: -5px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--cyan); color: #fff;
+    font-size: 0.65rem; font-weight: 700;
+    display: none; align-items: center; justify-content: center;
+    border: 2px solid var(--bg);
+  }
+
+  .btn-signin {
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 20px; background: var(--cyan); color: #fff;
+    border-radius: 24px; font-size: 0.87rem; font-weight: 600;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s; white-space: nowrap;
+  }
+  .btn-signin:hover { background: var(--cyan-dim); box-shadow: 0 0 20px rgba(6,182,212,0.5); transform: translateY(-1px); }
+  .btn-signin svg { width: 16px; height: 16px; }
+
+  /* ═══ HERO ═══ */
+  .hero {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 120px 32px 60px;
+    text-align: center;
+    margin-top: 68px;
+  }
+
+  .hero-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--text-sub);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* ═══ MAIN ═══ */
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 32px 80px;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 32px;
+  }
+
+  .blog-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  .blog-image {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, var(--bg3), var(--cyan-glow));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+  }
+
+  .blog-category {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    background: var(--cyan);
+    color: #fff;
+    border-radius: 20px;
+  }
+
+  .blog-content {
+    padding: 28px;
+  }
+
+  .blog-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  .blog-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.8rem;
+    color: var(--text-sub);
+    margin-bottom: 14px;
+  }
+
+  .blog-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .blog-excerpt {
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    line-height: 1.6;
+    margin-bottom: 18px;
+    min-height: 54px;
+  }
+
+  .blog-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .blog-read-time {
+    font-size: 0.8rem;
+    color: var(--gray-mid);
+  }
+
+  .blog-btn {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--cyan);
+    transition: color 0.2s;
+  }
+
+  .blog-btn:hover {
+    color: var(--cyan-dim);
+  }
+
+  .featured-section {
+    margin-bottom: 80px;
+  }
+
+  .featured-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 32px;
+    color: var(--cyan);
+  }
+
+  .featured-card {
+    background: linear-gradient(135deg, var(--bg3), var(--bg2));
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    margin-bottom: 60px;
+  }
+
+  .featured-card:nth-child(even) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .featured-image {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--cyan-glow);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+  }
+
+  .featured-content h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 14px;
+  }
+
+  .featured-content .tag {
+    display: inline-block;
+    background: var(--cyan);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 16px;
+  }
+
+  .featured-content p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-sub);
+    margin-bottom: 24px;
+  }
+
+  .featured-content .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border: 1px solid var(--cyan);
+    border-radius: 24px;
+    color: var(--cyan);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+
+  .featured-content .cta:hover {
+    background: var(--cyan-glow);
+    transform: translateX(4px);
+  }
+
+  /* ═══ FOOTER ═══ */
+  footer {
+    background: var(--footer-bg);
+    color: #9CA3AF;
+  }
+  .footer-top {
+    max-width: 1400px; margin: 0 auto;
+    padding: 70px 32px 50px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 48px;
+  }
+  @media (max-width: 900px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 580px) { .footer-top { grid-template-columns: 1fr; } }
+
+  .footer-brand .logo-text { font-size: 1.2rem; margin-bottom: 14px; display: block; }
+  .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 260px; }
+
+  .footer-socials { display: flex; gap: 10px; margin-top: 24px; }
+  .soc-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; color: #9CA3AF;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .soc-btn:hover { background: var(--cyan-glow); color: var(--cyan); border-color: var(--cyan); }
+
+  .footer-col h4 {
+    font-size: 0.82rem; font-weight: 700; color: #fff;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 18px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col li a {
+    font-size: 0.85rem; color: #9CA3AF;
+    transition: color 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .footer-col li a:hover { color: var(--cyan); }
+  .footer-col li a::before { content: '›'; color: var(--cyan); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 24px 32px;
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+    font-size: 0.8rem;
+  }
+  .footer-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge-pay {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px; padding: 5px 12px;
+    font-size: 0.75rem; color: #9CA3AF;
+    display: flex; align-items: center; gap: 5px;
+  }
+
+  .btt {
+    position: fixed; bottom: 28px; right: 28px; z-index: 500;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--cyan);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 1.2rem;
+    box-shadow: 0 4px 20px rgba(6,182,212,0.4);
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .btt.show { opacity: 1; transform: translateY(0); }
+  .btt:hover { background: var(--cyan-dim); }
+
+  @media (max-width: 768px) {
+    .hero { padding: 80px 20px 40px; }
+    .hero-title { font-size: 1.8rem; }
+    .nav-links { display: none; }
+    .featured-card { grid-template-columns: 1fr; gap: 24px; padding: 32px; }
+    main { padding: 40px 20px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <nav class="nav-inner">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+    </ul>
+
+    <div class="nav-end">
+      <button class="theme-toggle" id="themeBtn" title="Toggle theme">
+        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+
+      <a href="cart.html" class="cart-icon-btn" title="View Cart">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="cartCount">0</span>
+      </a>
+
+      <div class="logo">
+        <img class="logo-img" src="logo.png" alt="Vision Giants logo" onerror="this.style.display='none'" />
+        <div class="logo-text">VISION <span>GIANTS</span></div>
+      </div>
+
+      <button class="btn-signin" onclick="openModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Sign In
+      </button>
+    </div>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1 class="hero-title">📚 Vision Giants Blog</h1>
+  <p class="hero-desc">Insights, tutorials, and stories from the world of electronics, DIY projects, and innovation in Pakistan.</p>
+</div>
+
+<main>
+  <!-- FEATURED ARTICLES -->
+  <div class="featured-section">
+    <h2 class="featured-title">Featured Articles</h2>
+    
+    <div class="featured-card">
+      <div class="featured-image">📱</div>
+      <div class="featured-content">
+        <span class="tag">Tutorial</span>
+        <h3>Getting Started with Arduino in 2025: A Beginner's Guide</h3>
+        <p>Learn how to set up your first Arduino project with our comprehensive guide. We cover everything from selecting the right board to writing your first sketch. Perfect for hobbyists and students!</p>
+        <a href="#" class="cta">Read Full Article →</a>
+      </div>
+    </div>
+
+    <div class="featured-card">
+      <div class="featured-content">
+        <span class="tag">Industry News</span>
+        <h3>3D Printing Revolution: Latest Trends in Pakistan's Maker Community</h3>
+        <p>Discover how 3D printing technology is transforming manufacturing and education in Pakistan. From prosthetics to prototypes, we explore the latest innovations and case studies.</p>
+        <a href="#" class="cta">Read Full Article →</a>
+      </div>
+      <div class="featured-image">🖨️</div>
+    </div>
+  </div>
+
+  <!-- BLOG GRID -->
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-image">
+        ⚙️
+        <span class="blog-category">IoT</span>
+      </div>
+      <div class="blog-content">
+        <h3 class="blog-title">Building IoT Weather Stations with ESP8266</h3>
+        <div class="blog-meta">
+          <span class="blog-meta-item">📅 Jan 15, 2025</span>
+          <span class="blog-meta-item">👤 Ahmed Khan</span>
+        </div>
+        <p class="blog-excerpt">Learn how to build a connected weather station that sends real-time data to the cloud. This project uses affordable components and is perfect for IoT beginners.</p>
+        <div class="blog-footer">
+          <span class="blog-read-time">8 min read</span>
+          <a href="#" class="blog-btn">Read →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-image">
+        🤖
+        <span class="blog-category">Robotics</span>
+      </div>
+      <div class="blog-content">
+        <h3 class="blog-title">Obstacle-Avoiding Robot: A Complete DIY Guide</h3>
+        <div class="blog-meta">
+          <span class="blog-meta-item">📅 Jan 12, 2025</span>
+          <span class="blog-meta-item">👤 Fatima Malik</span>
+        </div>
+        <p class="blog-excerpt">Step-by-step instructions for building your first autonomous robot. Perfect for school projects and science fairs. Includes circuit diagrams and code snippets.</p>
+        <div class="blog-footer">
+          <span class="blog-read-time">12 min read</span>
+          <a href="#" class="blog-btn">Read →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-image">
+        💡
+        <span class="blog-category">Tips & Tricks</span>
+      </div>
+      <div class="blog-content">
+        <h3 class="blog-title">5 Common Arduino Mistakes (and How to Fix Them)</h3>
+        <div class="blog-meta">
+          <span class="blog-meta-item">📅 Jan 10, 2025</span>
+          <span class="blog-meta-item">👤 Hassan Ali</span>
+        </div>
+        <p class="blog-excerpt">Avoid these common pitfalls when working with Arduino. From power supply issues to coding errors, we cover the most frequent problems and their solutions.</p>
+        <div class="blog-footer">
+          <span class="blog-read-time">5 min read</span>
+          <a href="#" class="blog-btn">Read →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-image">
+        🏠
+        <span class="blog-category">Smart Home</span>
+      </div>
+      <div class="blog-content">
+        <h3 class="blog-title">DIY Smart Home: Control Your Lights with Your Phone</h3>
+        <div class="blog-meta">
+          <span class="blog-meta-item">📅 Jan 8, 2025</span>
+          <span class="blog-meta-item">👤 Sara Siddiqui</span>
+        </div>
+        <p class="blog-excerpt">Create a simple home automation system using relay modules and WiFi. No expensive smart home hubs needed. Full code and diagrams included.</p>
+        <div class="blog-footer">
+          <span class="blog-read-time">10 min read</span>
+          <a href="#" class="blog-btn">Read →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-image">
+        🎓
+        <span class="blog-category">Education</span>
+      </div>
+      <div class="blog-content">
+        <h3 class="blog-title">Final Year Project Ideas: Electronics Edition</h3>
+        <div class="blog-meta">
+          <span class="blog-meta-item">📅 Jan 5, 2025</span>
+          <span class="blog-meta-item">👤 Dr. Imran</span>
+        </div>
+        <p class="blog-excerpt">Struggling with FYP ideas? We've compiled 20 innovative electronics project ideas that impress professors and are actually fun to build.</p>
+        <div class="blog-footer">
+          <span class="blog-read-time">15 min read</span>
+          <a href="#" class="blog-btn">Read →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-image">
+        🚁
+        <span class="blog-category">Drones</span>
+      </div>
+      <div class="blog-content">
+        <h3 class="blog-title">Building Your First FPV Drone: What You Need to Know</h3>
+        <div class="blog-meta">
+          <span class="blog-meta-item">📅 Jan 2, 2025</span>
+          <span class="blog-meta-item">👤 Ali Hassan</span>
+        </div>
+        <p class="blog-excerpt">Everything you need to build a racing drone from scratch. Includes component selection, assembly guide, and tuning tips from experienced builders.</p>
+        <div class="blog-footer">
+          <span class="blog-read-time">18 min read</span>
+          <a href="#" class="blog-btn">Read →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="logo-text">VISION <span style="color:var(--cyan)">GIANTS</span></span>
+      <p>Pakistan's premier destination for authentic, cutting-edge electronics. Powering the curious, the creators, and the collectors.</p>
+      <div class="footer-socials">
+        <a class="soc-btn" href="#" title="Facebook">𝑓</a>
+        <a class="soc-btn" href="#" title="Instagram">📸</a>
+        <a class="soc-btn" href="#" title="Twitter / X">𝕏</a>
+        <a class="soc-btn" href="#" title="YouTube">▶</a>
+        <a class="soc-btn" href="#" title="WhatsApp">💬</a>
+        <a class="soc-btn" href="#" title="LinkedIn">in</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="products.html?category=3dprinters">3D Printers</a></li><li><a href="products.html?category=displaymodules">Display Modules</a></li><li><a href="products.html?category=hardwaremegtaterials">Hardware Materials</a></li><li><a href="products.html?category=arduino">Arduino Interface</a></li><li><a href="products.html?category=robotics">Robotics & Parts</a></li><li><a href="products.html?category=quadcopter">Quadcopter & Parts</a></li><li><a href="products.html?category=diyprojects">DIY Projects</a></li></ul></div>
+    <div class="footer-col"><h4>Projects</h4><ul><li><a href="projects.html?category=fyp">Final Year Projects</a></li><li><a href="projects.html?category=arduino-projects">Arduino Projects</a></li><li><a href="projects.html?category=iot">IoT Projects</a></li><li><a href="projects.html?category=robotics-projects">Robotics Projects</a></li><li><a href="projects.html?category=drone-projects">Drone Projects</a></li><li><a href="projects.html?category=3dprint-projects">3D Printing Projects</a></li><li><a href="projects.html?category=smarthome-projects">Smart Home Projects</a></li></ul></div>
+    <div class="footer-col"><h4>Policies</h4><ul><li><a href="policies.html#privacy">Privacy Policy</a></li><li><a href="policies.html#terms">Terms of Service</a></li><li><a href="policies.html#refund">Refund Policy</a></li><li><a href="policies.html#shipping">Shipping Policy</a></li><li><a href="policies.html#authenticity">Authenticity Guarantee</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="contact.html">About Us</a></li><li><a href="blog.html">Blog</a></li><li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Vision Giants. All rights reserved. Made with ⚡ in Pakistan.</p>
+    <div class="footer-badges">
+      <div class="badge-pay">💳 Visa</div>
+      <div class="badge-pay">💳 Mastercard</div>
+      <div class="badge-pay">🏦 EasyPaisa</div>
+      <div class="badge-pay">🏦 JazzCash</div>
+    </div>
+  </div>
+</footer>
+
+<button class="btt" id="btt">↑</button>
+
+<script src="shared.js"></script>
+</body>
+</html>

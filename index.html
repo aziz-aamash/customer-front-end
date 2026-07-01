@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vision Giants – Next-Gen Electronics</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cyan: #06B6D4;
+    --cyan-dim: #0891B2;
+    --cyan-glow: rgba(6,182,212,0.18);
+    --white: #FFFFFF;
+    --gray: #E5E7EB;
+    --gray-mid: #9CA3AF;
+  }
+  [data-theme="dark"] {
+    --bg: #111827;
+    --bg2: #1F2937;
+    --bg3: #374151;
+    --text: #F9FAFB;
+    --text-sub: #D1D5DB;
+    --border: rgba(6,182,212,0.2);
+    --card: #1F2937;
+    --nav-bg: rgba(17,24,39,0.92);
+    --footer-bg: #0B0F1A;
+  }
+  [data-theme="light"] {
+    --bg: #F0F9FF;
+    --bg2: #FFFFFF;
+    --bg3: #E5E7EB;
+    --text: #111827;
+    --text-sub: #374151;
+    --border: rgba(6,182,212,0.3);
+    --card: #FFFFFF;
+    --nav-bg: rgba(240,249,255,0.92);
+    --footer-bg: #111827;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.35s, color 0.35s;
+    overflow-x: hidden;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+  button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
+
+  /* ═══ HEADER / NAV ═══ */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: var(--nav-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.35s;
+  }
+  .nav-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; gap: 32px;
+    padding: 0 32px; height: 68px;
+  }
+  .nav-end {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-img { width: 36px; height: 36px; }
+  .logo-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 1.15rem;
+    color: var(--white); letter-spacing: 0.05em; white-space: nowrap;
+  }
+  [data-theme="light"] .logo-text { color: #111827; }
+  .logo-text span { color: var(--cyan); }
+
+  .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+  .nav-links li { position: relative; }
+  .nav-links a {
+    display: flex; align-items: center; gap: 5px;
+    padding: 8px 14px; font-size: 0.9rem; font-weight: 500;
+    color: var(--text-sub); border-radius: 8px;
+    transition: color 0.2s, background 0.2s; white-space: nowrap;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--cyan); background: var(--cyan-glow); }
+  .nav-links a svg { width: 14px; height: 14px; flex-shrink: 0; transition: transform 0.2s; }
+  .nav-links li:hover > a svg { transform: rotate(180deg); }
+
+  .dropdown {
+    position: absolute; top: calc(100% + 10px); left: 0;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 12px; width: 640px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    opacity: 0; pointer-events: none; transform: translateY(-8px);
+    transition: opacity 0.25s, transform 0.25s;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4); z-index: 200;
+  }
+  .nav-links li:hover .dropdown { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .drop-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px; border-radius: 10px; transition: background 0.2s; cursor: pointer;
+  }
+  .drop-item:hover { background: var(--cyan-glow); }
+  .drop-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--cyan-glow); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .drop-item:hover .drop-icon { background: var(--cyan); }
+  .drop-label { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+  .drop-sub { font-size: 0.73rem; color: var(--gray-mid); margin-top: 1px; }
+
+  .search-bar {
+    display: flex; align-items: center;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 24px; padding: 7px 16px; gap: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s; min-width: 200px;
+  }
+  .search-bar:focus-within { border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-glow); }
+  .search-bar svg { width: 16px; height: 16px; color: var(--gray-mid); flex-shrink: 0; }
+  .search-bar input { border: none; background: none; outline: none; font-size: 0.87rem; color: var(--text); width: 100%; }
+  .search-bar input::placeholder { color: var(--gray-mid); }
+
+  .theme-toggle {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cyan); transition: background 0.2s, transform 0.2s; flex-shrink: 0;
+  }
+  .theme-toggle:hover { background: var(--cyan-glow); transform: rotate(20deg); }
+  .theme-toggle svg { width: 18px; height: 18px; }
+
+  .cart-icon-btn {
+    position: relative;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text); transition: background 0.2s, border-color 0.2s;
+    flex-shrink: 0; text-decoration: none;
+  }
+  .cart-icon-btn:hover { background: var(--cyan-glow); border-color: var(--cyan); color: var(--cyan); }
+  .cart-icon-btn svg { width: 20px; height: 20px; }
+  .cartCount {
+    position: absolute; top: -5px; right: -5px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--cyan); color: #fff;
+    font-size: 0.65rem; font-weight: 700;
+    display: none; align-items: center; justify-content: center;
+    border: 2px solid var(--bg);
+    animation: pop 0.3s ease;
+  }
+  @keyframes pop { 0%{transform:scale(0)} 70%{transform:scale(1.2)} 100%{transform:scale(1)} }
+
+  .btn-signin {
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 20px; background: var(--cyan); color: #fff;
+    border-radius: 24px; font-size: 0.87rem; font-weight: 600;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s; white-space: nowrap;
+  }
+  .btn-signin:hover { background: var(--cyan-dim); box-shadow: 0 0 20px rgba(6,182,212,0.5); transform: translateY(-1px); }
+  .btn-signin svg { width: 16px; height: 16px; }
+
+  /* ═══ HERO ═══ */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 100px 32px 60px; max-width: 1400px; margin: 0 auto;
+    position: relative; gap: 60px;
+  }
+  .hero-content { flex: 1; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--cyan-glow); border: 1px solid var(--border);
+    border-radius: 20px; padding: 6px 14px;
+    font-size: 0.78rem; font-weight: 600; color: var(--cyan);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 28px;
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--cyan); animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.4rem, 5vw, 4.2rem); font-weight: 700;
+    line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 24px;
+  }
+  .hero h1 .cyan { color: var(--cyan); }
+  .hero h1 .outline { -webkit-text-stroke: 2px var(--cyan); color: transparent; }
+  .hero-sub { font-size: 1.05rem; color: var(--text-sub); line-height: 1.7; max-width: 500px; margin-bottom: 36px; }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 14px 32px; background: var(--cyan); color: #fff;
+    border-radius: 30px; font-weight: 600; font-size: 0.95rem;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    box-shadow: 0 0 28px rgba(6,182,212,0.35); cursor: pointer; border: none;
+  }
+  .btn-primary:hover { background: var(--cyan-dim); box-shadow: 0 0 40px rgba(6,182,212,0.55); transform: translateY(-2px); }
+  .btn-ghost {
+    padding: 13px 28px; background: transparent; border: 1px solid var(--border);
+    color: var(--text); border-radius: 30px; font-weight: 500; font-size: 0.95rem;
+    transition: border-color 0.2s, background 0.2s; cursor: pointer;
+  }
+  .btn-ghost:hover { border-color: var(--cyan); background: var(--cyan-glow); color: var(--cyan); }
+
+  .hero-stats { display: flex; gap: 32px; margin-top: 48px; padding-top: 36px; border-top: 1px solid var(--border); }
+  .stat-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--cyan); }
+  .stat-label { font-size: 0.8rem; color: var(--gray-mid); margin-top: 2px; }
+
+  .hero-visual { flex: 1; max-width: 520px; position: relative; display: flex; align-items: center; justify-content: center; }
+  .hero-ring {
+    width: 420px; height: 420px; border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; animation: spin-slow 25s linear infinite;
+  }
+  .hero-ring::before {
+    content: ''; position: absolute; inset: -24px; border-radius: 50%;
+    border: 1px dashed rgba(6,182,212,0.2);
+  }
+  @keyframes spin-slow { to { transform: rotate(360deg); } }
+  .hero-ring-inner {
+    width: 320px; height: 320px; border-radius: 50%;
+    background: radial-gradient(ellipse at 30% 30%, rgba(6,182,212,0.15), transparent 70%), var(--bg2);
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    animation: spin-slow 25s linear infinite reverse;
+    box-shadow: inset 0 0 60px rgba(6,182,212,0.08), 0 0 60px rgba(6,182,212,0.12);
+  }
+  .hero-ring-inner span:first-child { font-size: 4rem; line-height: 1; }
+  .hero-ring-inner span:last-child {
+    font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 600;
+    color: var(--cyan); letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .orbit-dot {
+    position: absolute; width: 44px; height: 44px; border-radius: 50%;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; box-shadow: 0 0 12px rgba(6,182,212,0.15);
+  }
+
+  /* ═══ SECTION COMMONS ═══ */
+  section { padding: 90px 32px; }
+  .section-inner { max-width: 1400px; margin: 0 auto; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.78rem; font-weight: 700; color: var(--cyan);
+    text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px;
+  }
+  .section-label::before, .section-label::after { content: ''; flex: 1; height: 1px; background: var(--cyan); width: 28px; }
+  .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .section-sub { color: var(--text-sub); max-width: 520px; line-height: 1.65; }
+
+  /* ═══ CATEGORIES ═══ */
+  #products { background: var(--bg); }
+  .cats-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 44px; gap: 24px; flex-wrap: wrap; }
+  .cats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+  .cat-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+    padding: 28px 20px; display: flex; flex-direction: column; align-items: center; gap: 14px;
+    cursor: pointer; transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    position: relative; overflow: hidden; text-align: center;
+  }
+  .cat-card::before { content: ''; position: absolute; inset: 0; background: var(--cyan-glow); opacity: 0; transition: opacity 0.25s; }
+  .cat-card:hover { transform: translateY(-6px); border-color: var(--cyan); box-shadow: 0 12px 40px rgba(6,182,212,0.18); }
+  .cat-card:hover::before { opacity: 1; }
+  .cat-icon { font-size: 2.4rem; position: relative; z-index: 1; }
+  .cat-name { font-weight: 600; font-size: 0.92rem; position: relative; z-index: 1; }
+  .cat-count { font-size: 0.78rem; color: var(--gray-mid); position: relative; z-index: 1; }
+  .cat-arrow { width: 28px; height: 28px; border-radius: 50%; background: var(--cyan); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.8rem; position: relative; z-index: 1; transform: scale(0); transition: transform 0.2s; }
+  .cat-card:hover .cat-arrow { transform: scale(1); }
+
+  /* ═══ PRODUCTS ═══ */
+  #featured { background: var(--bg2); }
+  .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 24px; margin-top: 44px; }
+  .product-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: transform 0.25s, box-shadow 0.25s; position: relative; cursor: pointer; }
+  .product-card:hover { transform: translateY(-5px); box-shadow: 0 16px 50px rgba(0,0,0,0.25); }
+  .product-img {
+    height: 200px; background: var(--bg3);
+    display: flex; align-items: center; justify-content: center; font-size: 4rem;
+    position: relative; overflow: hidden;
+  }
+  .product-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 60%, rgba(6,182,212,0.08)); }
+  .badge-new { position: absolute; top: 14px; left: 14px; background: var(--cyan); color: #fff; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
+  .badge-sale { position: absolute; top: 14px; left: 14px; background: #F59E0B; color: #111; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
+  .badge-popular { position: absolute; top: 14px; left: 14px; background: #A78BFA; color: #111; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
+  .product-info { padding: 20px; }
+  .product-cat { font-size: 0.73rem; color: var(--cyan); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+  .product-name { font-size: 0.97rem; font-weight: 600; margin: 6px 0 4px; }
+  .product-rating { display: flex; align-items: center; gap: 4px; font-size: 0.78rem; color: #F59E0B; }
+  .product-rating span { color: var(--gray-mid); }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
+  .product-price { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem; color: var(--cyan); }
+  .product-price .old { font-size: 0.74rem; color: var(--gray-mid); text-decoration: line-through; font-family: 'Inter', sans-serif; font-weight: 400; margin-right: 6px; }
+  .btn-cart { width: 38px; height: 38px; border-radius: 50%; background: var(--cyan); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1rem; transition: background 0.2s, box-shadow 0.2s; }
+  .btn-cart:hover { background: var(--cyan-dim); box-shadow: 0 0 14px rgba(6,182,212,0.5); }
+  .product-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .btn-buy-now { flex: 1; padding: 9px 10px; background: var(--cyan); color: #fff; border-radius: 20px; font-size: 0.78rem; font-weight: 600; text-align: center; transition: background 0.2s; }
+  .btn-buy-now:hover { background: var(--cyan-dim); }
+  .btn-quick-view { flex: 1; padding: 9px 10px; background: transparent; border: 1px solid var(--border); color: var(--text); border-radius: 20px; font-size: 0.78rem; font-weight: 600; text-align: center; transition: background 0.2s, border-color 0.2s; }
+  .btn-quick-view:hover { border-color: var(--cyan); background: var(--cyan-glow); color: var(--cyan); }
+
+  /* Quick View Modal */
+  .qv-overlay { position: fixed; inset: 0; z-index: 2100; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; padding: 24px; }
+  .qv-overlay.open { opacity: 1; pointer-events: auto; }
+  .qv-modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 24px; padding: 32px; width: 100%; max-width: 640px; transform: scale(0.95); transition: transform 0.25s; position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .qv-overlay.open .qv-modal { transform: scale(1); }
+  .qv-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%; background: var(--bg3); color: var(--text); display: flex; align-items: center; justify-content: center; font-size: 1rem; cursor: pointer; }
+  .qv-close:hover { background: var(--cyan-glow); color: var(--cyan); }
+  .qv-img { aspect-ratio: 1; background: var(--card); border: 1px solid var(--border); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 5rem; position: relative; }
+  .qv-info { display: flex; flex-direction: column; gap: 10px; }
+  .qv-cat { font-size: 0.73rem; color: var(--cyan); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+  .qv-name { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; }
+  .qv-rating { font-size: 0.82rem; color: #F59E0B; }
+  .qv-rating span { color: var(--gray-mid); }
+  .qv-price { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--cyan); margin-top: 4px; }
+  .qv-price .old { font-size: 0.82rem; color: var(--gray-mid); text-decoration: line-through; font-family: 'Inter', sans-serif; font-weight: 400; margin-right: 6px; }
+  .qv-desc { font-size: 0.85rem; color: var(--text-sub); line-height: 1.6; }
+  .qv-actions { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+  @media (max-width: 640px) { .qv-modal { grid-template-columns: 1fr; } }
+
+  /* ═══ WHY US ═══ */
+  #why { background: var(--bg); }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; margin-top: 44px; }
+  .feat-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 30px 24px; transition: border-color 0.25s; }
+  .feat-card:hover { border-color: var(--cyan); }
+  .feat-icon-wrap { width: 54px; height: 54px; border-radius: 14px; background: var(--cyan-glow); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 18px; }
+  .feat-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .feat-card p { font-size: 0.87rem; color: var(--text-sub); line-height: 1.65; }
+
+  /* ═══ MARQUEE ═══ */
+  .marquee-wrap { background: var(--cyan); overflow: hidden; padding: 14px 0; }
+  .marquee-track { display: flex; gap: 0; animation: marquee 30s linear infinite; width: max-content; }
+  .marquee-track span { white-space: nowrap; padding: 0 40px; font-size: 0.82rem; font-weight: 700; color: #fff; letter-spacing: 0.08em; text-transform: uppercase; }
+  .marquee-dot { color: rgba(255,255,255,0.4); }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ═══ NEWSLETTER ═══ */
+  .cta-strip { padding: 80px 32px; background: var(--bg2); }
+  .cta-box { max-width: 1400px; margin: 0 auto; background: linear-gradient(135deg, rgba(6,182,212,0.12), rgba(6,182,212,0.04)); border: 1px solid var(--border); border-radius: 28px; padding: 60px 48px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; position: relative; overflow: hidden; }
+  .cta-box::before { content: ''; position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; border-radius: 50%; background: rgba(6,182,212,0.08); pointer-events: none; }
+  .cta-box h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 700; letter-spacing: -0.02em; max-width: 400px; }
+  .cta-box h2 span { color: var(--cyan); }
+  .cta-form { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cta-input { padding: 13px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: 24px; color: var(--text); font-size: 0.9rem; outline: none; min-width: 240px; transition: border-color 0.2s; }
+  .cta-input:focus { border-color: var(--cyan); }
+  .cta-input::placeholder { color: var(--gray-mid); }
+
+  /* ═══ FOOTER ═══ */
+  footer { background: var(--footer-bg); color: #9CA3AF; }
+  .footer-top { max-width: 1400px; margin: 0 auto; padding: 70px 32px 50px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 40px; }
+  @media (max-width: 900px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 580px) { .footer-top { grid-template-columns: 1fr; } }
+  .footer-brand .logo-text { font-size: 1.2rem; margin-bottom: 14px; display: block; }
+  .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 260px; }
+  .footer-socials { display: flex; gap: 10px; margin-top: 24px; }
+  .soc-btn { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #9CA3AF; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  .soc-btn:hover { background: var(--cyan-glow); color: var(--cyan); border-color: var(--cyan); }
+  .footer-col h4 { font-size: 0.82rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 18px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col li a { font-size: 0.85rem; color: #9CA3AF; transition: color 0.2s; display: flex; align-items: center; gap: 6px; }
+  .footer-col li a:hover { color: var(--cyan); }
+  .footer-col li a::before { content: '›'; color: var(--cyan); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 24px 32px; max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 0.8rem; }
+  .footer-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge-pay { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 5px 12px; font-size: 0.75rem; color: #9CA3AF; display: flex; align-items: center; gap: 5px; }
+
+  /* ═══ MODAL ═══ */
+  .modal-overlay { position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  .modal-overlay.open { opacity: 1; pointer-events: auto; }
+  .modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 24px; padding: 40px; width: 100%; max-width: 420px; transform: scale(0.95); transition: transform 0.25s; position: relative; }
+  .modal-overlay.open .modal { transform: scale(1); }
+  .modal-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%; background: var(--bg3); color: var(--text); display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: background 0.2s; cursor: pointer; }
+  .modal-close:hover { background: var(--cyan-glow); color: var(--cyan); }
+  .modal h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+  .modal p { font-size: 0.85rem; color: var(--text-sub); margin-bottom: 28px; }
+  .modal-form { display: flex; flex-direction: column; gap: 14px; }
+  .modal-divider { display: flex; align-items: center; gap: 10px; font-size: 0.78rem; color: var(--gray-mid); margin: 4px 0; }
+  .modal-divider::before, .modal-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .btn-google { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: 12px; font-size: 0.9rem; font-weight: 500; color: var(--text); transition: background 0.2s; cursor: pointer; background: transparent; }
+  .btn-google:hover { background: var(--cyan-glow); }
+  .modal-footer-txt { text-align: center; font-size: 0.82rem; color: var(--gray-mid); margin-top: 14px; }
+  .modal-footer-txt a { color: var(--cyan); cursor: pointer; }
+  .form-group { display: flex; flex-direction: column; gap: 7px; }
+  .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--text-sub); }
+  .form-group input, .form-group textarea { padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-size: 0.9rem; font-family: inherit; outline: none; transition: border-color 0.2s; resize: none; }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--cyan); }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--gray-mid); }
+
+  .btt { position: fixed; bottom: 28px; right: 28px; z-index: 500; width: 44px; height: 44px; border-radius: 50%; background: var(--cyan); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; box-shadow: 0 4px 20px rgba(6,182,212,0.4); opacity: 0; transform: translateY(10px); transition: opacity 0.3s, transform 0.3s; cursor: pointer; }
+  .btt.show { opacity: 1; transform: translateY(0); }
+  .btt:hover { background: var(--cyan-dim); }
+
+  @media (max-width: 1024px) {
+    .hero { flex-direction: column; gap: 40px; text-align: center; padding-top: 110px; }
+    .hero-sub { margin: 0 auto 36px; }
+    .hero-ctas { justify-content: center; }
+    .hero-stats { justify-content: center; }
+    .hero-visual { max-width: 320px; }
+    .hero-ring { width: 300px; height: 300px; }
+    .hero-ring-inner { width: 230px; height: 230px; }
+    .dropdown { width: 400px; grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .search-bar { display: none; }
+    .nav-links { display: none; }
+    .hero-visual { display: none; }
+    section { padding: 60px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <nav class="nav-inner">
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li>
+        <a href="products.html">Products
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="dropdown">
+          <div class="drop-item" onclick="goToCategory('3dprinters')"><div class="drop-icon">🖨️</div><div><div class="drop-label">3D Printers</div><div class="drop-sub">FDM and resin printers</div></div></div>
+          <div class="drop-item" onclick="goToCategory('displaymodules')"><div class="drop-icon">🖥️</div><div><div class="drop-label">Display Modules</div><div class="drop-sub">TFT, OLED & more</div></div></div>
+          <div class="drop-item" onclick="goToCategory('hardwaremegtaterials')"><div class="drop-icon">🔧</div><div><div class="drop-label">Hardware Materials</div><div class="drop-sub">Converters & connectors</div></div></div>
+          <div class="drop-item" onclick="goToCategory('arduino')"><div class="drop-icon">🔌</div><div><div class="drop-label">Arduino Interface</div><div class="drop-sub">Modules & dev boards</div></div></div>
+          <div class="drop-item" onclick="goToCategory('robotics')"><div class="drop-icon">⚙️</div><div><div class="drop-label">Robotics & Parts</div><div class="drop-sub">Motors & actuators</div></div></div>
+          <div class="drop-item" onclick="goToCategory('quadcopter')"><div class="drop-icon">🚁</div><div><div class="drop-label">Quadcopter & Parts</div><div class="drop-sub">Drones & flight controllers</div></div></div>
+          <div class="drop-item" onclick="goToCategory('diyprojects')"><div class="drop-icon">🌾</div><div><div class="drop-label">DIY Projects</div><div class="drop-sub">Semester & FYP kits</div></div></div>
+        </div>
+      </li>
+      <li>
+        <a href="projects.html">Projects
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="dropdown">
+          <div class="drop-item" onclick="goToProjectCategory('fyp')"><div class="drop-icon">🎓</div><div><div class="drop-label">Final Year Projects</div><div class="drop-sub">Complete FYP solutions</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('arduino-projects')"><div class="drop-icon">🔌</div><div><div class="drop-label">Arduino Projects</div><div class="drop-sub">Mini & semester builds</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('iot')"><div class="drop-icon">📡</div><div><div class="drop-label">IoT Projects</div><div class="drop-sub">Connected device builds</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('robotics-projects')"><div class="drop-icon">🤖</div><div><div class="drop-label">Robotics Projects</div><div class="drop-sub">Autonomous & remote bots</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('drone-projects')"><div class="drop-icon">🚁</div><div><div class="drop-label">Drone Projects</div><div class="drop-sub">Custom-built quadcopters</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('3dprint-projects')"><div class="drop-icon">🖨️</div><div><div class="drop-label">3D Printing Projects</div><div class="drop-sub">Printed mechanisms & models</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('smarthome-projects')"><div class="drop-icon">🏠</div><div><div class="drop-label">Smart Home Projects</div><div class="drop-sub">Home automation builds</div></div></div>
+        </div>
+      </li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <div class="search-bar">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search products…" />
+    </div>
+
+    <div class="nav-end">
+      <button class="theme-toggle" id="themeBtn" title="Toggle theme">
+        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+
+      <a href="cart.html" class="cart-icon-btn" title="View Cart">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="cartCount">0</span>
+      </a>
+
+      <div class="logo">
+        <img class="logo-img" src="logo.png" alt="Vision Giants logo" onerror="this.style.display='none'" />
+        <div class="logo-text">VISION <span>GIANTS</span></div>
+      </div>
+
+      <button class="btn-signin" onclick="openModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Sign In
+      </button>
+    </div>
+  </nav>
+</header>
+
+<section id="home" style="padding-top:0">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">New 2025 Collection Live Now</div>
+      <h1>See the <span class="cyan">Future</span><br>of <span class="outline">Technology</span></h1>
+      <p class="hero-sub">From 3D printers to Arduino modules and robotics parts — Vision Giants brings you the sharpest electronics and DIY components, curated for makers who demand more.</p>
+      <div class="hero-ctas">
+        <a href="products.html" class="btn-primary">Explore Products</a>
+        <a href="projects.html" class="btn-primary">Explore Projects</a>
+        <a href="contact.html" class="btn-ghost">Get in Touch</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-val">100+</div><div class="stat-label">Products</div></div>
+        <div><div class="stat-val">50+</div><div class="stat-label">Projects</div></div>
+        <div><div class="stat-val">98%</div><div class="stat-label">Satisfaction</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-ring">
+        <div class="hero-ring-inner">
+          <img src="logo.png" alt="Vision Giants logo" style="width:200px;height:200px;object-fit:contain" onerror="this.style.display='none'" />
+          <span></span>
+        </div>
+        <div class="orbit-dot" style="top:-22px;left:50%;transform:translateX(-50%)">🖨️</div>
+        <div class="orbit-dot" style="bottom:-22px;left:50%;transform:translateX(-50%)">⚙️</div>
+        <div class="orbit-dot" style="left:-22px;top:50%;transform:translateY(-50%)">🚁</div>
+        <div class="orbit-dot" style="right:-22px;top:50%;transform:translateY(-50%)">🔌</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Free Delivery on Orders Above Rs 25,000 <span class="marquee-dot">✦</span></span>
+    <span>New Arrivals Every Week <span class="marquee-dot">✦</span></span>
+    <span>Authentic Products Only <span class="marquee-dot">✦</span></span>
+    <span>24/7 Expert Support <span class="marquee-dot">✦</span></span>
+    <span>2-Year Warranty on All Devices <span class="marquee-dot">✦</span></span>
+    <span>0% Instalment Plans Available <span class="marquee-dot">✦</span></span>
+    <span>Free Delivery on Orders Above Rs 25,000 <span class="marquee-dot">✦</span></span>
+    <span>New Arrivals Every Week <span class="marquee-dot">✦</span></span>
+    <span>Authentic Products Only <span class="marquee-dot">✦</span></span>
+    <span>24/7 Expert Support <span class="marquee-dot">✦</span></span>
+    <span>2-Year Warranty on All Devices <span class="marquee-dot">✦</span></span>
+    <span>0% Instalment Plans Available <span class="marquee-dot">✦</span></span>
+  </div>
+</div>
+
+<section id="products">
+  <div class="section-inner">
+    <div class="cats-header">
+      <div>
+        <div class="section-label">Browse by Category</div>
+        <h2 class="section-title">Shop Categories</h2>
+        <p class="section-sub">Explore our full range of premium electronics organized by what matters most to you.</p>
+      </div>
+    </div>
+    <div class="cats-grid" id="categoriesGrid"></div>
+  </div>
+</section>
+
+<section id="featured">
+  <div class="section-inner">
+    <div class="cats-header">
+      <div>
+        <div class="section-label">Hand-Picked Picks</div>
+        <h2 class="section-title">Featured Products</h2>
+        <p class="section-sub">The season's most sought-after tech — from 3D printers to Arduino-based DIY builds.</p>
+      </div>
+      <a href="products.html" class="btn-ghost" style="white-space:nowrap">View All →</a>
+    </div>
+    <div class="products-grid" id="featuredProducts"></div>
+  </div>
+</section>
+
+<section id="featured-projects">
+  <div class="section-inner">
+    <div class="cats-header">
+      <div>
+        <div class="section-label">Build Something Great</div>
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-sub">Get inspired with expert-curated projects, from beginner-friendly Arduino builds to advanced robotics systems.</p>
+      </div>
+      <a href="projects.html" class="btn-ghost" style="white-space:nowrap">View All →</a>
+    </div>
+    <div class="products-grid" id="featuredProjects"></div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="section-inner">
+    <div style="text-align:center;margin-bottom:0">
+      <div class="section-label" style="justify-content:center">Our Promise</div>
+      <h2 class="section-title">Why Vision Giants?</h2>
+      <p class="section-sub" style="margin:0 auto">We're built for tech lovers who refuse to settle. Every order, every pixel, every watt — obsessively curated.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card"><div class="feat-icon-wrap">🚀</div><h3>Same-Day Dispatch</h3><p>Order before 3 PM and your gear ships the same day. We don't believe in waiting when you're excited about new tech.</p></div>
+      <div class="feat-card"><div class="feat-icon-wrap">🛡️</div><h3>2-Year Warranty</h3><p>Every device sold on Vision Giants includes a full 2-year manufacturer's warranty — no asterisks, no hidden terms.</p></div>
+      <div class="feat-card"><div class="feat-icon-wrap">✅</div><h3>100% Authentic</h3><p>We source directly from certified distributors. Counterfeits never touch our shelves. Your trust is non-negotiable.</p></div>
+      <div class="feat-card"><div class="feat-icon-wrap">💳</div><h3>0% Instalments</h3><p>Split any purchase into 3, 6, or 12 months with zero interest via EasyPaisa, JazzCash, or bank instalments.</p></div>
+      <div class="feat-card"><div class="feat-icon-wrap">🔄</div><h3>30-Day Returns</h3><p>Changed your mind? Return anything within 30 days, no questions asked. Full refund, hassle-free.</p></div>
+      <div class="feat-card"><div class="feat-icon-wrap">🎧</div><h3>Expert Support 24/7</h3><p>Real people, real answers — anytime. Our tech-savvy support team is on call around the clock for you.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-strip">
+  <div class="cta-box">
+    <div>
+      <h2>Stay Ahead of the <span>Tech Curve</span></h2>
+      <p style="font-size:0.9rem;color:var(--text-sub);margin-top:10px">Get early access to launches, exclusive deals, and expert picks — straight to your inbox.</p>
+    </div>
+    <div class="cta-form">
+      <input class="cta-input" type="email" placeholder="Your email address" />
+      <button class="btn-primary">Subscribe →</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="logo-text">VISION <span style="color:var(--cyan)">GIANTS</span></span>
+      <p>Pakistan's premier destination for authentic, cutting-edge electronics. Powering the curious, the creators, and the collectors.</p>
+      <div class="footer-socials">
+        <a class="soc-btn" href="#" title="Facebook">𝑓</a>
+        <a class="soc-btn" href="#" title="Instagram">📸</a>
+        <a class="soc-btn" href="#" title="Twitter / X">𝕏</a>
+        <a class="soc-btn" href="#" title="YouTube">▶</a>
+        <a class="soc-btn" href="#" title="WhatsApp">💬</a>
+        <a class="soc-btn" href="#" title="LinkedIn">in</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Shop</h4><ul id="footerShopLinks"></ul></div>
+    <div class="footer-col"><h4>Projects</h4><ul><li><a href="projects.html?category=fyp">Final Year Projects</a></li><li><a href="projects.html?category=arduino-projects">Arduino Projects</a></li><li><a href="projects.html?category=iot">IoT Projects</a></li><li><a href="projects.html?category=robotics-projects">Robotics Projects</a></li><li><a href="projects.html?category=drone-projects">Drone Projects</a></li><li><a href="projects.html?category=3dprint-projects">3D Printing Projects</a></li><li><a href="projects.html?category=smarthome-projects">Smart Home Projects</a></li></ul></div>
+    <div class="footer-col"><h4>Policies</h4><ul><li><a href="policies.html#privacy">Privacy Policy</a></li><li><a href="policies.html#terms">Terms of Service</a></li><li><a href="policies.html#refund">Refund Policy</a></li><li><a href="policies.html#shipping">Shipping Policy</a></li><li><a href="policies.html#authenticity">Authenticity Guarantee</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="contact.html">About Us</a></li><li><a href="blog.html">Blog</a></li><li></ul></div>
+  <div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.06);margin-top:0;padding-top:24px;max-width:none;padding-left:32px;padding-right:32px">
+    <p>© 2025 Vision Giants. All rights reserved. Made with ⚡ in Pakistan.</p>
+    <div class="footer-badges">
+      <div class="badge-pay">💳 Visa</div>
+      <div class="badge-pay">💳 Mastercard</div>
+      <div class="badge-pay">🏦 EasyPaisa</div>
+      <div class="badge-pay">🏦 JazzCash</div>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal(null, true)">✕</button>
+    <h2>Welcome Back</h2>
+    <p>Sign in to access your orders, wishlist, and exclusive deals.</p>
+    <div class="modal-form">
+      <button class="btn-google"><span>🔵</span> Continue with Google</button>
+      <div class="modal-divider">or sign in with email</div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com" /></div>
+      <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••" /></div>
+      <button class="btn-primary" style="padding:13px">Sign In →</button>
+    </div>
+    <p class="modal-footer-txt">Don't have an account? <a onclick="alert('Sign up coming soon!')">Create one free</a></p>
+  </div>
+</div>
+
+<div class="qv-overlay" id="qvModal" onclick="closeQuickView(event)">
+  <div class="qv-modal">
+    <button class="qv-close" onclick="closeQuickView(null, true)">✕</button>
+    <div id="qvBody" style="display:contents"></div>
+  </div>
+</div>
+
+<button class="btt" id="btt">↑</button>
+
+<script src="shared.js"></script>
+<script>
+  async function loadHomepage() {
+    const data = await loadProducts();
+    const projects = await loadProjects();
+    
+    // Load categories
+    const catGrid = document.getElementById('categoriesGrid');
+    data.categories.forEach(cat => {
+      const card = document.createElement('div');
+      card.className = 'cat-card';
+      card.onclick = () => goToCategory(cat.id);
+      card.innerHTML = `<div class="cat-icon">${cat.emoji}</div><div class="cat-name">${cat.name}</div><div class="cat-count">${cat.count}+ Products</div><div class="cat-arrow">›</div>`;
+      catGrid.appendChild(card);
+    });
+    
+    // Load featured products
+    const featGrid = document.getElementById('featuredProducts');
+    data.products.slice(0, 6).forEach(product => {
+      featGrid.appendChild(buildProductCard(product));
+    });
+    
+    // Load featured projects
+    const projGrid = document.getElementById('featuredProjects');
+    projects.projects.slice(0, 6).forEach(project => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      const badgeHtml = project.badge ? `<span class="${project.badge.includes('%') ? 'badge-sale' : project.badge === 'POPULAR' ? 'badge-popular' : 'badge-new'}">${project.badge}</span>` : '';
+      const entireStars = Math.floor(project.rating || 0);
+      const hasHalfStar = (project.rating || 0) % 1 !== 0;
+      const ratingHtml = project.rating
+        ? '★'.repeat(entireStars) + (hasHalfStar ? '☆' : '') + ` <span>(${project.rating})</span>`
+        : `<span>No reviews yet</span>`;
+      card.innerHTML = `
+        <div class="product-img" onclick="openProjectQuickView('${project.id}')">
+          ${project.emoji}
+          ${badgeHtml}
+        </div>
+        <div class="product-info">
+          <div class="product-cat">${project.category}</div>
+          <div class="product-name" style="cursor:pointer">${project.name}</div>
+          <div class="product-rating">${ratingHtml}</div>
+          <div class="product-footer">
+            <div class="product-price" style="font-size:0.82rem">${project.difficulty} · ${project.duration}</div>
+          </div>
+          <div class="product-actions">
+            <button class="btn-buy-now" onclick="event.stopPropagation(); openProjectQuickView('${project.id}', event)" style="flex:1">View Details</button>
+          </div>
+        </div>
+      `;
+      projGrid.appendChild(card);
+    });
+  }
+  loadHomepage();
+</script>
+</body>
+</html>

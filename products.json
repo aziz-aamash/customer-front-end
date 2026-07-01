@@ -1,0 +1,313 @@
+{
+  "products": [
+    {
+      "id": "crtouchautolevelingkit",
+      "name": "CR Touch Auto Leveling Kit for Creality 3D Printers",
+      "category": "3D Printers",
+      "categoryId": "3dprinters",
+      "price": 12000,
+      "originalPrice": null,
+      "badge": "New",
+      "rating": null,
+      "reviews": 0,
+      "emoji": "🖨️",
+      "image": "🖨️",
+      "description": "Automatic bed leveling sensor kit for Creality 3D printers, improving print accuracy and consistency.",
+      "specs": {
+        "Type": "Auto Bed Leveling Sensor",
+        "Compatibility": "Creality 3D Printers",
+        "Currency": "PKR"
+      },
+      "features": [
+        "Automatic Bed Leveling",
+        "Improved Print Accuracy",
+        "Easy Installation"
+      ],
+      "url": "https://multanelectronics.com/shop/cr-touch-auto-leveling-kit-for-creality/"
+    },
+    {
+      "id": "elegoosaturn4ultra",
+      "name": "Elegoo Saturn 4 Ultra 12k Resin Printer",
+      "category": "3D Printers",
+      "categoryId": "3dprinters",
+      "price": 349500,
+      "originalPrice": null,
+      "badge": "New",
+      "rating": null,
+      "reviews": 0,
+      "emoji": "🖨️",
+      "image": "🖨️",
+      "description": "High-resolution 12K resin 3D printer from Elegoo's Saturn series, built for detailed, professional-grade prints.",
+      "specs": {
+        "Type": "Resin (MSLA) 3D Printer",
+        "Resolution": "12K",
+        "Currency": "PKR"
+      },
+      "features": [
+        "12K LCD Resolution",
+        "Fast Print Speeds",
+        "Large Build Volume"
+      ],
+      "url": "https://multanelectronics.com/shop/elegoo-saturn-4-ultra/"
+    },
+    {
+      "id": "roundtftlcd128",
+      "name": "1.28 Inch Round TFT LCD Display Module (GC9A01)",
+      "category": "Display Modules",
+      "categoryId": "displaymodules",
+      "price": 1850,
+      "originalPrice": null,
+      "badge": "New",
+      "rating": null,
+      "reviews": 0,
+      "emoji": "🖥️",
+      "image": "🖥️",
+      "description": "Round 240x240 RGB TFT LCD module driven by the GC9A01 controller with a 4-wire SPI interface, ideal for smartwatch and gauge-style UI projects.",
+      "specs": {
+        "Size": "1.28\"",
+        "Resolution": "240x240 RGB",
+        "Driver": "GC9A01",
+        "Interface": "4-Wire SPI",
+        "Currency": "PKR"
+      },
+      "features": [
+        "Round Display",
+        "SPI Interface",
+        "Compact Form Factor"
+      ],
+      "url": "https://multanelectronics.com/shop/1-28-inch-round-tft-lcd-display-module/"
+    },
+    {
+      "id": "stm485sconverter",
+      "name": "STM485S RS232 to RS485 Serial Converter Module",
+      "category": "Hardware Materials",
+      "categoryId": "hardwaremegtaterials",
+      "price": 1550,
+      "originalPrice": null,
+      "badge": "New",
+      "rating": null,
+      "reviews": 0,
+      "emoji": "🔧",
+      "image": "🔧",
+      "description": "Bi-directional data converter module for translating between RS232 and RS485 communication standards.",
+      "specs": {
+        "Function": "RS232 to RS485 Conversion",
+        "Direction": "Bi-Directional",
+        "Currency": "PKR"
+      },
+      "features": [
+        "Bi-Directional Communication",
+        "Industrial Data Conversion",
+        "Compact Module"
+      ],
+      "url": "https://multanelectronics.com/shop/stm485s-rs232-to-rs485-serial-converter/"
+    },
+    {
+      "id": "oled13inch",
+      "name": "1.3 Inch 128x64 I2C OLED Blue Display Module for Arduino",
+      "category": "Arduino interface Module",
+      "categoryId": "arduino",
+      "price": 850,
+      "originalPrice": null,
+      "badge": "New",
+      "rating": null,
+      "reviews": 0,
+      "emoji": "🖥️",
+      "image": "🖥️",
+      "description": "IIC SSD1306-driven OLED screen, a popular low-power display choice for Arduino and similar microcontroller projects.",
+      "specs": {
+        "Size": "1.3\"",
+        "Resolution": "128x64",
+        "Driver": "SSD1306",
+        "Interface": "I2C/IIC",
+        "Currency": "PKR"
+      },
+      "features": [
+        "Low Power Consumption",
+        "Wide Viewing Angle",
+        "Easy Arduino Integration"
+      ],
+      "url": "https://multanelectronics.com/shop/1-3-inch-128x64-i2c-oled-blue-display/"
+    },
+    {
+      "id": "mcp2515canbus",
+      "name": "MCP2515 CAN Bus Controller and Transceiver Module",
+      "category": "Arduino interface Module",
+      "categoryId": "arduino",
+      "price": 850,
+      "originalPrice": null,
+      "badge": "New",
+      "rating": null,
+      "reviews": 0,
+      "emoji": "🔌",
+      "image": "🔌",
+      "description": "SPI-based CAN bus interface module compatible with Arduino, ESP32, and Raspberry Pi, useful for automotive and industrial communication projects.",
+      "specs": {
+        "Controller": "MCP2515",
+        "Interface": "SPI",
+        "Compatibility": "Arduino, ESP32, Raspberry Pi",
+        "Currency": "PKR"
+      },
+      "features": [
+        "SPI CAN Interface",
+        "Multi-Platform Compatibility",
+        "Reliable Industrial Communication"
+      ],
+      "url": "https://multanelectronics.com/shop/mcp2515-can-bus-controller-and-transce/"
+    },
+    {
+      "id": "esp32c6devboard",
+      "name": "ESP32-C6 Development Board (WiFi 6 + Zigbee + Thread)",
+      "category": "Arduino interface Module",
+      "categoryId": "arduino",
+      "price": 2250,
+      "originalPrice": null,
+      "badge": "New",
+      "rating": null,
+      "reviews": 0,
+      "emoji": "📶",
+      "image": "📶",
+      "description": "RISC-V based development board with WiFi 6, Zigbee, and Thread support, geared toward next-gen IoT and smart home projects.",
+      "specs": {
+        "Processor": "RISC-V 160MHz",
+        "Flash": "16MB",
+        "Connectivity": "WiFi 6, Zigbee, Thread",
+        "Extras": "RGB LED, USB Type-C",
+        "Currency": "PKR"
+      },
+      "features": [
+        "Multi-Protocol Wireless",
+        "RISC-V Architecture",
+        "USB Type-C"
+      ],
+      "url": "https://multanelectronics.com/shop/esp32-c6-development-board-usb-type-c/"
+    },
+    {
+      "id": "150rpmgearmotor",
+      "name": "150 RPM High Torque 12 Volt DC Gear Motor",
+      "category": "Robotics & Parts",
+      "categoryId": "robotics",
+      "price": 2950,
+      "originalPrice": null,
+      "badge": "New",
+      "rating": 3,
+      "reviews": 1,
+      "emoji": "⚙️",
+      "image": "⚙️",
+      "description": "High-torque 12V DC gear motor commonly used in Arduino-based robotics and DIY mechanical builds.",
+      "specs": {
+        "Speed": "150 RPM",
+        "Voltage": "12V DC",
+        "Torque": "High Torque",
+        "Currency": "PKR"
+      },
+      "features": [
+        "High Torque Output",
+        "Arduino Compatible",
+        "Durable Build"
+      ],
+      "url": "https://multanelectronics.com/shop/150-rpm-high-torque-12-volt-dc-gear-motor-arduino/"
+    },
+    {
+      "id": "arduinoquadcopterdrone",
+      "name": "Arduino Based Balancing Quadcopter Drone Project",
+      "category": "Quadcopter & Parts",
+      "categoryId": "quadcopter",
+      "price": 59990,
+      "originalPrice": 62000,
+      "badge": "Sale",
+      "rating": null,
+      "reviews": 0,
+      "emoji": "🚁",
+      "image": "🚁",
+      "description": "Complete Arduino-based balancing quadcopter drone project with a full flight control system, ready for assembly or semester/FYP use.",
+      "specs": {
+        "Control System": "Arduino-Based Flight Controller",
+        "Type": "Balancing Quadcopter",
+        "Currency": "PKR"
+      },
+      "features": [
+        "Flight Control System Included",
+        "Great for FYP / Semester Projects",
+        "Arduino-Based"
+      ],
+      "url": "https://multanelectronics.com/shop/arduino-based-balancing-quadcopter-dron/"
+    },
+    {
+      "id": "aiseedqualitydetection",
+      "name": "Camera Based AI Seed Quality Detection & Grading System",
+      "category": "DIY Projects",
+      "categoryId": "diyprojects",
+      "price": 150000,
+      "originalPrice": null,
+      "badge": "New",
+      "rating": null,
+      "reviews": 0,
+      "emoji": "🌾",
+      "image": "🌾",
+      "description": "Camera and AI-powered system that detects and grades seed quality, suited for agricultural automation and final year projects.",
+      "specs": {
+        "Technology": "AI / Computer Vision",
+        "Application": "Seed Quality Detection & Grading",
+        "Currency": "PKR"
+      },
+      "features": [
+        "AI-Powered Detection",
+        "Camera-Based Grading",
+        "Ideal for Agri-Tech FYPs"
+      ],
+      "url": "https://multanelectronics.com/shop/camera-based-ai-seed-quality-detection/"
+    }
+  ],
+  "categories": [
+    {
+      "id": "3dprinters",
+      "name": "3D Printers",
+      "emoji": "🖨️",
+      "count": 2,
+      "description": "FDM and resin 3D printers plus auto-leveling accessories"
+    },
+    {
+      "id": "displaymodules",
+      "name": "Display Modules",
+      "emoji": "🖥️",
+      "count": 1,
+      "description": "TFT, OLED, and other display modules for embedded projects"
+    },
+    {
+      "id": "hardwaremegtaterials",
+      "name": "Hardware Materials",
+      "emoji": "🔧",
+      "count": 1,
+      "description": "Converters, connectors, and general hardware components"
+    },
+    {
+      "id": "arduino",
+      "name": "Arduino interface Module",
+      "emoji": "🔌",
+      "count": 3,
+      "description": "Arduino-compatible modules, dev boards, and interfaces"
+    },
+    {
+      "id": "robotics",
+      "name": "Robotics & Parts",
+      "emoji": "⚙️",
+      "count": 1,
+      "description": "Motors, actuators, and robotics building blocks"
+    },
+    {
+      "id": "quadcopter",
+      "name": "Quadcopter & Parts",
+      "emoji": "🚁",
+      "count": 1,
+      "description": "Drones, flight controllers, and quadcopter parts"
+    },
+    {
+      "id": "diyprojects",
+      "name": "DIY Projects",
+      "emoji": "🌾",
+      "count": 1,
+      "description": "Ready-made DIY, semester, and FYP project kits"
+    }
+  ]
+}

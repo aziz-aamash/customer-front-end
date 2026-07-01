@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Projects – Vision Giants</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cyan: #06B6D4;
+    --cyan-dim: #0891B2;
+    --cyan-glow: rgba(6,182,212,0.18);
+    --white: #FFFFFF;
+    --gray: #E5E7EB;
+    --gray-mid: #9CA3AF;
+  }
+  [data-theme="dark"] {
+    --bg: #111827;
+    --bg2: #1F2937;
+    --bg3: #374151;
+    --text: #F9FAFB;
+    --text-sub: #D1D5DB;
+    --border: rgba(6,182,212,0.2);
+    --card: #1F2937;
+    --nav-bg: rgba(17,24,39,0.92);
+    --footer-bg: #0B0F1A;
+  }
+  [data-theme="light"] {
+    --bg: #F0F9FF;
+    --bg2: #FFFFFF;
+    --bg3: #E5E7EB;
+    --text: #111827;
+    --text-sub: #374151;
+    --border: rgba(6,182,212,0.3);
+    --card: #FFFFFF;
+    --nav-bg: rgba(240,249,255,0.92);
+    --footer-bg: #111827;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.35s, color 0.35s;
+    overflow-x: hidden;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+  button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
+
+   /* ═══ HEADER / NAV ═══ */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: var(--nav-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.35s;
+  }
+  .nav-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; gap: 32px;
+    padding: 0 32px; height: 68px;
+  }
+  .nav-end {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-img { width: 36px; height: 36px; }
+  .logo-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 1.15rem;
+    color: var(--white); letter-spacing: 0.05em; white-space: nowrap;
+  }
+  [data-theme="light"] .logo-text { color: #111827; }
+  .logo-text span { color: var(--cyan); }
+
+  .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+  .nav-links li { position: relative; }
+  .nav-links a {
+    display: flex; align-items: center; gap: 5px;
+    padding: 8px 14px; font-size: 0.9rem; font-weight: 500;
+    color: var(--text-sub); border-radius: 8px;
+    transition: color 0.2s, background 0.2s; white-space: nowrap;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--cyan); background: var(--cyan-glow); }
+  .nav-links a svg { width: 14px; height: 14px; flex-shrink: 0; transition: transform 0.2s; }
+  .nav-links li:hover > a svg { transform: rotate(180deg); }
+
+  .dropdown {
+    position: absolute; top: calc(100% + 10px); left: 0;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 12px; width: 640px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    opacity: 0; pointer-events: none; transform: translateY(-8px);
+    transition: opacity 0.25s, transform 0.25s;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4); z-index: 200;
+  }
+  .nav-links li:hover .dropdown { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .drop-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px; border-radius: 10px; transition: background 0.2s; cursor: pointer;
+  }
+  .drop-item:hover { background: var(--cyan-glow); }
+  .drop-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--cyan-glow); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .drop-item:hover .drop-icon { background: var(--cyan); }
+  .drop-label { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+  .drop-sub { font-size: 0.73rem; color: var(--gray-mid); margin-top: 1px; }
+
+  .search-bar {
+    display: flex; align-items: center;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 24px; padding: 7px 16px; gap: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s; min-width: 200px;
+  }
+  .search-bar:focus-within { border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-glow); }
+  .search-bar svg { width: 16px; height: 16px; color: var(--gray-mid); flex-shrink: 0; }
+  .search-bar input { border: none; background: none; outline: none; font-size: 0.87rem; color: var(--text); width: 100%; }
+  .search-bar input::placeholder { color: var(--gray-mid); }
+
+  .theme-toggle {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cyan); transition: background 0.2s, transform 0.2s; flex-shrink: 0;
+  }
+  .theme-toggle:hover { background: var(--cyan-glow); transform: rotate(20deg); }
+  .theme-toggle svg { width: 18px; height: 18px; }
+
+  .cart-icon-btn {
+    position: relative;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text); transition: background 0.2s, border-color 0.2s;
+    flex-shrink: 0; text-decoration: none;
+  }
+  .cart-icon-btn:hover { background: var(--cyan-glow); border-color: var(--cyan); color: var(--cyan); }
+  .cart-icon-btn svg { width: 20px; height: 20px; }
+  .cartCount {
+    position: absolute; top: -5px; right: -5px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--cyan); color: #fff;
+    font-size: 0.65rem; font-weight: 700;
+    display: none; align-items: center; justify-content: center;
+    border: 2px solid var(--bg);
+    animation: pop 0.3s ease;
+  }
+  @keyframes pop { 0%{transform:scale(0)} 70%{transform:scale(1.2)} 100%{transform:scale(1)} }
+
+  .btn-signin {
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 20px; background: var(--cyan); color: #fff;
+    border-radius: 24px; font-size: 0.87rem; font-weight: 600;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s; white-space: nowrap;
+  }
+  .btn-signin:hover { background: var(--cyan-dim); box-shadow: 0 0 20px rgba(6,182,212,0.5); transform: translateY(-1px); }
+  .btn-signin svg { width: 16px; height: 16px; }
+
+
+  .btn-primary {
+    padding: 14px 32px;
+    background: var(--cyan);
+    color: #fff;
+    border-radius: 30px;
+    font-weight: 600; font-size: 0.95rem;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    box-shadow: 0 0 28px rgba(6,182,212,0.35);
+    cursor: pointer;
+    border: none;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-primary:hover {
+    background: var(--cyan-dim);
+    box-shadow: 0 0 40px rgba(6,182,212,0.55);
+    transform: translateY(-2px);
+  }
+  .btn-ghost {
+    padding: 13px 28px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 30px;
+    font-weight: 500; font-size: 0.95rem;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-ghost:hover { border-color: var(--cyan); background: var(--cyan-glow); color: var(--cyan); }
+
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 2000;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: auto; }
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 24px; padding: 40px;
+    width: 100%; max-width: 420px;
+    transform: scale(0.95);
+    transition: transform 0.25s;
+    position: relative;
+  }
+  .modal-overlay.open .modal { transform: scale(1); }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--bg3); color: var(--text);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; transition: background 0.2s;
+    cursor: pointer;
+  }
+  .modal-close:hover { background: var(--cyan-glow); color: var(--cyan); }
+  .modal h2 {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.4rem; font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .modal p { font-size: 0.85rem; color: var(--text-sub); margin-bottom: 28px; }
+  .modal-form { display: flex; flex-direction: column; gap: 14px; }
+  .modal-divider {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.78rem; color: var(--gray-mid); margin: 4px 0;
+  }
+  .modal-divider::before, .modal-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .btn-google {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 0.9rem; font-weight: 500;
+    color: var(--text);
+    transition: background 0.2s;
+    cursor: pointer;
+    background: transparent;
+  }
+  .btn-google:hover { background: var(--cyan-glow); }
+  .modal-footer-txt { text-align: center; font-size: 0.82rem; color: var(--gray-mid); margin-top: 14px; }
+  .modal-footer-txt a { color: var(--cyan); cursor: pointer; }
+
+  .form-group { display: flex; flex-direction: column; gap: 7px; }
+  .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--text-sub); }
+  .form-group input, .form-group textarea {
+    padding: 12px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text); font-size: 0.9rem; font-family: inherit;
+    outline: none; transition: border-color 0.2s;
+    resize: none;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--cyan); }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--gray-mid); }
+
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 100px 32px 60px;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 48px;
+  }
+
+  .page-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  .page-desc {
+    color: var(--text-sub);
+    font-size: 1rem;
+    margin-bottom: 36px;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .filter-section h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--cyan);
+    margin-bottom: 14px;
+  }
+
+  .filter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+  }
+
+  .filter-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-item:hover { border-color: var(--cyan); background: var(--cyan-glow); }
+  .filter-item.active { background: var(--cyan-glow); border-color: var(--cyan); }
+  .filter-item input[type="radio"] {
+    accent-color: var(--cyan);
+    cursor: pointer;
+  }
+  .filter-item label {
+    cursor: pointer;
+    flex: 1;
+    font-size: 0.9rem;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .products-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .products-count {
+    font-size: 0.9rem;
+    color: var(--text-sub);
+  }
+
+  .sort-dropdown {
+    padding: 9px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .sort-dropdown:hover { border-color: var(--cyan); }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 60px;
+  }
+
+  .product-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .product-card:hover { transform: translateY(-5px); box-shadow: 0 16px 50px rgba(0,0,0,0.25); }
+
+  .product-img {
+    height: 220px;
+    background: var(--bg3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4.5rem;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .product-img::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 60%, rgba(6,182,212,0.08));
+  }
+  .quick-view-btn {
+    position: absolute;
+    bottom: 12px; left: 50%;
+    transform: translate(-50%, 12px);
+    background: rgba(17,24,39,0.85);
+    color: #fff;
+    font-size: 0.75rem; font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--cyan);
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    white-space: nowrap;
+    z-index: 2;
+  }
+  .product-card:hover .quick-view-btn { opacity: 1; transform: translate(-50%, 0); }
+
+  .badge-new, .badge-sale, .badge-popular {
+    position: absolute; top: 14px; left: 14px;
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 4px 11px; border-radius: 20px;
+  }
+  .badge-new { background: var(--cyan); color: #fff; }
+  .badge-sale { background: #F59E0B; color: #111; }
+  .badge-popular { background: #A78BFA; color: #111; }
+
+  .product-info { padding: 22px; }
+  .product-cat { font-size: 0.73rem; color: var(--cyan); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .product-name { font-size: 1rem; font-weight: 600; margin-bottom: 6px; cursor: pointer; }
+  .product-rating { display: flex; align-items: center; gap: 4px; font-size: 0.78rem; color: #F59E0B; margin-bottom: 12px; }
+  .product-rating span { color: var(--gray-mid); }
+
+  .product-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 10px;
+  }
+
+  .product-price {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--cyan);
+  }
+  .product-price .old {
+    font-size: 0.75rem;
+    color: var(--gray-mid);
+    text-decoration: line-through;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    margin-right: 6px;
+  }
+
+  .product-actions { display: flex; align-items: center; gap: 8px; }
+  .btn-buynow {
+    padding: 0 14px; height: 40px; border-radius: 20px;
+    background: transparent;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    font-size: 0.78rem; font-weight: 700;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+  }
+  .btn-buynow:hover { background: var(--cyan); color: #fff; }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 32px;
+    color: var(--text-sub);
+  }
+
+  .empty-state svg { width: 80px; height: 80px; opacity: 0.3; margin-bottom: 20px; }
+  .empty-state h2 { font-size: 1.4rem; margin-bottom: 8px; }
+
+  footer {
+    background: var(--footer-bg);
+    color: #9CA3AF;
+  }
+  .footer-top {
+    max-width: 1400px; margin: 0 auto;
+    padding: 70px 32px 50px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 48px;
+  }
+  @media (max-width: 900px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 580px) { .footer-top { grid-template-columns: 1fr; } }
+
+  .footer-brand .logo-text { font-size: 1.2rem; margin-bottom: 14px; display: block; }
+  .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 260px; }
+
+  .footer-socials { display: flex; gap: 10px; margin-top: 24px; }
+  .soc-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; color: #9CA3AF;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .soc-btn:hover { background: var(--cyan-glow); color: var(--cyan); border-color: var(--cyan); }
+
+  .footer-col h4 {
+    font-size: 0.82rem; font-weight: 700; color: #fff;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 18px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col li a {
+    font-size: 0.85rem; color: #9CA3AF;
+    transition: color 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .footer-col li a:hover { color: var(--cyan); }
+  .footer-col li a::before { content: '›'; color: var(--cyan); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 24px 32px;
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+    font-size: 0.8rem;
+  }
+  .footer-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge-pay {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px; padding: 5px 12px;
+    font-size: 0.75rem; color: #9CA3AF;
+    display: flex; align-items: center; gap: 5px;
+  }
+
+  .btt {
+    position: fixed; bottom: 28px; right: 28px; z-index: 500;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--cyan);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 1.2rem;
+    box-shadow: 0 4px 20px rgba(6,182,212,0.4);
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .btt.show { opacity: 1; transform: translateY(0); }
+  .btt:hover { background: var(--cyan-dim); }
+
+  @media (max-width: 768px) {
+    main { grid-template-columns: 1fr; padding: 80px 20px 60px; }
+    .sidebar { display: none; }
+    .products-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+    .nav-links { display: none; }
+    .search-bar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <nav class="nav-inner">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li>
+        <a href="products.html">Products
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="dropdown">
+          <div class="drop-item" onclick="goToCategory('3dprinters')"><div class="drop-icon">🖨️</div><div><div class="drop-label">3D Printers</div><div class="drop-sub">FDM and resin printers</div></div></div>
+          <div class="drop-item" onclick="goToCategory('displaymodules')"><div class="drop-icon">🖥️</div><div><div class="drop-label">Display Modules</div><div class="drop-sub">TFT, OLED & more</div></div></div>
+          <div class="drop-item" onclick="goToCategory('hardwaremegtaterials')"><div class="drop-icon">🔧</div><div><div class="drop-label">Hardware Materials</div><div class="drop-sub">Converters & connectors</div></div></div>
+          <div class="drop-item" onclick="goToCategory('arduino')"><div class="drop-icon">🔌</div><div><div class="drop-label">Arduino Interface</div><div class="drop-sub">Modules & dev boards</div></div></div>
+          <div class="drop-item" onclick="goToCategory('robotics')"><div class="drop-icon">⚙️</div><div><div class="drop-label">Robotics & Parts</div><div class="drop-sub">Motors & actuators</div></div></div>
+          <div class="drop-item" onclick="goToCategory('quadcopter')"><div class="drop-icon">🚁</div><div><div class="drop-label">Quadcopter & Parts</div><div class="drop-sub">Drones & flight controllers</div></div></div>
+          <div class="drop-item" onclick="goToCategory('diyprojects')"><div class="drop-icon">🌾</div><div><div class="drop-label">DIY Projects</div><div class="drop-sub">Semester & FYP kits</div></div></div>
+        </div>
+      </li>
+      <li>
+        <a href="projects.html" class="active">Projects
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="dropdown">
+          <div class="drop-item" onclick="goToProjectCategory('fyp')"><div class="drop-icon">🎓</div><div><div class="drop-label">Final Year Projects</div><div class="drop-sub">Complete FYP solutions</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('arduino-projects')"><div class="drop-icon">🔌</div><div><div class="drop-label">Arduino Projects</div><div class="drop-sub">Mini & semester builds</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('iot')"><div class="drop-icon">📡</div><div><div class="drop-label">IoT Projects</div><div class="drop-sub">Connected device builds</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('robotics-projects')"><div class="drop-icon">🤖</div><div><div class="drop-label">Robotics Projects</div><div class="drop-sub">Autonomous & remote bots</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('drone-projects')"><div class="drop-icon">🚁</div><div><div class="drop-label">Drone Projects</div><div class="drop-sub">Custom-built quadcopters</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('3dprint-projects')"><div class="drop-icon">🖨️</div><div><div class="drop-label">3D Printing Projects</div><div class="drop-sub">Printed mechanisms & models</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('smarthome-projects')"><div class="drop-icon">🏠</div><div><div class="drop-label">Smart Home Projects</div><div class="drop-sub">Home automation builds</div></div></div>
+        </div>
+      </li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <div class="search-bar">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search products…" />
+    </div>
+
+    <div class="nav-end">
+      <button class="theme-toggle" id="themeBtn" title="Toggle theme">
+        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+
+      <a href="cart.html" class="cart-icon-btn" title="View Cart">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="cartCount">0</span>
+      </a>
+
+      <div class="logo">
+        <img class="logo-img" src="logo.png" alt="Vision Giants logo" onerror="this.style.display='none'" />
+        <div class="logo-text">VISION <span>GIANTS</span></div>
+      </div>
+
+      <button class="btn-signin" onclick="openModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Sign In
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <aside class="sidebar">
+    <div>
+      <h1 class="page-title">Browse</h1>
+      <p class="page-desc">Filter by category</p>
+    </div>
+
+    <div class="filter-section">
+      <h3>Categories</h3>
+      <ul class="filter-list" id="categoryFilter">
+        <li class="filter-item active" data-category="">
+          <input type="radio" id="all-cat" name="category" value="" checked />
+          <label for="all-cat">All Projects</label>
+        </li>
+      </ul>
+    </div>
+
+    <div class="filter-section">
+      <h3>Difficulty</h3>
+      <ul class="filter-list" id="difficultyFilter">
+        <li class="filter-item active" data-difficulty="">
+          <input type="radio" id="all-diff" name="difficulty" value="" checked />
+          <label for="all-diff">All Levels</label>
+        </li>
+        <li class="filter-item" data-difficulty="Beginner">
+          <input type="radio" id="diff-beginner" name="difficulty" value="Beginner" />
+          <label for="diff-beginner">Beginner</label>
+        </li>
+        <li class="filter-item" data-difficulty="Intermediate">
+          <input type="radio" id="diff-intermediate" name="difficulty" value="Intermediate" />
+          <label for="diff-intermediate">Intermediate</label>
+        </li>
+        <li class="filter-item" data-difficulty="Advanced">
+          <input type="radio" id="diff-advanced" name="difficulty" value="Advanced" />
+          <label for="diff-advanced">Advanced</label>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="content">
+    <div class="products-header">
+      <div>
+        <h1 class="page-title">All Projects</h1>
+        <p class="products-count"><span id="productCount">0</span> projects found</p>
+      </div>
+      <select class="sort-dropdown" id="sortSelect">
+        <option value="newest">Newest First</option>
+        <option value="difficulty-low">Difficulty: Easiest First</option>
+        <option value="difficulty-high">Difficulty: Hardest First</option>
+        <option value="rating">Highest Rated</option>
+      </select>
+    </div>
+
+    <div class="products-grid" id="productsGrid">
+    </div>
+
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <h2>No projects found</h2>
+      <p>Try adjusting your filters</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="logo-text">VISION <span style="color:var(--cyan)">GIANTS</span></span>
+      <p>Pakistan's premier destination for authentic, cutting-edge electronics. Powering the curious, the creators, and the collectors.</p>
+      <div class="footer-socials">
+        <a class="soc-btn" href="#" title="Facebook">𝑓</a>
+        <a class="soc-btn" href="#" title="Instagram">📸</a>
+        <a class="soc-btn" href="#" title="Twitter / X">𝕏</a>
+        <a class="soc-btn" href="#" title="YouTube">▶</a>
+        <a class="soc-btn" href="#" title="WhatsApp">💬</a>
+        <a class="soc-btn" href="#" title="LinkedIn">in</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="products.html?category=3dprinters">3D Printers</a></li><li><a href="products.html?category=displaymodules">Display Modules</a></li><li><a href="products.html?category=hardwaremegtaterials">Hardware Materials</a></li><li><a href="products.html?category=arduino">Arduino Interface</a></li><li><a href="products.html?category=robotics">Robotics & Parts</a></li><li><a href="products.html?category=quadcopter">Quadcopter & Parts</a></li><li><a href="products.html?category=diyprojects">DIY Projects</a></li></ul></div>
+    <div class="footer-col"><h4>Projects</h4><ul><li><a href="projects.html?category=fyp">Final Year Projects</a></li><li><a href="projects.html?category=arduino-projects">Arduino Projects</a></li><li><a href="projects.html?category=iot">IoT Projects</a></li><li><a href="projects.html?category=robotics-projects">Robotics Projects</a></li><li><a href="projects.html?category=drone-projects">Drone Projects</a></li><li><a href="projects.html?category=3dprint-projects">3D Printing Projects</a></li><li><a href="projects.html?category=smarthome-projects">Smart Home Projects</a></li></ul></div>
+    <div class="footer-col"><h4>Policies</h4><ul><li><a href="policies.html#privacy">Privacy Policy</a></li><li><a href="policies.html#terms">Terms of Service</a></li><li><a href="policies.html#refund">Refund Policy</a></li><li><a href="policies.html#shipping">Shipping Policy</a></li><li><a href="policies.html#authenticity">Authenticity Guarantee</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="contact.html">About Us</a></li><li><a href="blog.html">Blog</a></li><li></ul></div>
+  </div>
+  <div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.06);margin-top:0;padding-top:24px;max-width:none;padding-left:32px;padding-right:32px">
+    <p>© 2025 Vision Giants. All rights reserved. Made with ⚡ in Pakistan.</p>
+    <div class="footer-badges">
+      <div class="badge-pay">💳 Visa</div>
+      <div class="badge-pay">💳 Mastercard</div>
+      <div class="badge-pay">🏦 EasyPaisa</div>
+      <div class="badge-pay">🏦 JazzCash</div>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal(null, true)">✕</button>
+    <h2>Welcome Back</h2>
+    <p>Sign in to access your orders, wishlist, and exclusive deals.</p>
+
+    <div class="modal-form">
+      <button class="btn-google">
+        <span>🔵</span> Continue with Google
+      </button>
+      <div class="modal-divider">or sign in with email</div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="you@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" placeholder="••••••••" />
+      </div>
+      <button class="btn-primary" style="padding:13px">Sign In →</button>
+    </div>
+    <p class="modal-footer-txt">
+      Don't have an account? <a onclick="alert('Sign up coming soon!')">Create one free</a>
+    </p>
+  </div>
+</div>
+
+<button class="btt" id="btt">↑</button>
+
+<script src="shared.js"></script>
+<script>
+  let allProjects = [];
+  let currentCategory = '';
+  let currentDifficulty = '';
+  const DIFFICULTY_RANK = { 'Beginner': 1, 'Intermediate': 2, 'Advanced': 3 };
+
+  async function initProjectsPage() {
+    const data = await loadProjects();
+    allProjects = data.projects;
+
+    const urlCategory = getQueryParam('category');
+    if (urlCategory) {
+      currentCategory = urlCategory;
+    }
+
+    const catFilter = document.getElementById('categoryFilter');
+    data.categories.forEach(cat => {
+      const li = document.createElement('li');
+      li.className = 'filter-item';
+      if (currentCategory === cat.id) li.classList.add('active');
+      li.dataset.category = cat.id;
+      li.innerHTML = `
+        <input type="radio" id="cat-${cat.id}" name="category" value="${cat.id}" ${currentCategory === cat.id ? 'checked' : ''} />
+        <label for="cat-${cat.id}">${cat.emoji} ${cat.name}</label>
+      `;
+      li.addEventListener('click', () => filterByCategory(cat.id));
+      catFilter.appendChild(li);
+    });
+
+    document.querySelectorAll('input[name="category"]').forEach(radio => {
+      radio.addEventListener('change', (e) => filterByCategory(e.target.value));
+    });
+
+    document.querySelectorAll('#difficultyFilter .filter-item').forEach(item => {
+      item.addEventListener('click', () => filterByDifficulty(item.dataset.difficulty));
+    });
+    document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
+      radio.addEventListener('change', (e) => filterByDifficulty(e.target.value));
+    });
+
+    document.getElementById('sortSelect').addEventListener('change', (e) => sortProjects(e.target.value));
+
+    renderProjects();
+  }
+
+  function filterByCategory(categoryId) {
+    currentCategory = categoryId;
+    document.querySelectorAll('#categoryFilter .filter-item').forEach(item => {
+      item.classList.toggle('active', item.dataset.category === categoryId);
+    });
+    renderProjects();
+  }
+
+  function filterByDifficulty(difficulty) {
+    currentDifficulty = difficulty;
+    document.querySelectorAll('#difficultyFilter .filter-item').forEach(item => {
+      item.classList.toggle('active', item.dataset.difficulty === difficulty);
+    });
+    renderProjects();
+  }
+
+  function sortProjects(sortType) {
+    const filtered = getFilteredProjects();
+    let sorted = [...filtered];
+
+    switch(sortType) {
+      case 'difficulty-low':
+        sorted.sort((a, b) => DIFFICULTY_RANK[a.difficulty] - DIFFICULTY_RANK[b.difficulty]);
+        break;
+      case 'difficulty-high':
+        sorted.sort((a, b) => DIFFICULTY_RANK[b.difficulty] - DIFFICULTY_RANK[a.difficulty]);
+        break;
+      case 'rating':
+        sorted.sort((a, b) => b.rating - a.rating);
+        break;
+      case 'newest':
+      default:
+        sorted = filtered;
+    }
+
+    renderProjectsList(sorted);
+  }
+
+  function getFilteredProjects() {
+    return allProjects.filter(p =>
+      (!currentCategory || p.categoryId === currentCategory) &&
+      (!currentDifficulty || p.difficulty === currentDifficulty)
+    );
+  }
+
+  function renderProjects() {
+    const filtered = getFilteredProjects();
+    renderProjectsList(filtered);
+    document.getElementById('productCount').textContent = filtered.length;
+
+    if (filtered.length === 0) {
+      document.getElementById('productsGrid').style.display = 'none';
+      document.getElementById('emptyState').style.display = 'block';
+    } else {
+      document.getElementById('productsGrid').style.display = 'grid';
+      document.getElementById('emptyState').style.display = 'none';
+    }
+  }
+
+  function projectBadgeClass(badge) {
+    if (!badge) return '';
+    if (badge.includes('%')) return 'badge-sale';
+    if (badge === 'POPULAR') return 'badge-popular';
+    return 'badge-new';
+  }
+
+  function renderProjectsList(projects) {
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = '';
+
+    projects.forEach(project => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <div class="product-img" onclick="goToProjectDetail('${project.id}')">
+          ${project.emoji}
+          ${project.badge ? `<span class="${projectBadgeClass(project.badge)}">${project.badge}</span>` : ''}
+          <button class="quick-view-btn" onclick="event.stopPropagation(); goToProjectDetail('${project.id}')">👁 View Details</button>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">${project.category}</div>
+          <div class="product-name" onclick="goToProjectDetail('${project.id}')">${project.name}</div>
+          <div class="product-rating">${'★'.repeat(Math.floor(project.rating))}${project.rating % 1 !== 0 ? '☆' : ''} <span>(${project.rating})</span></div>
+          <div class="product-footer">
+            <div class="product-price">${project.difficulty} · ${project.duration}</div>
+            <div class="product-actions">
+              <a href="project.html?id=${project.id}" class="btn-buynow" style="text-decoration:none;display:flex;align-items:center;justify-content:center">View Details →</a>
+            </div>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function goToProjectDetail(projectId) {
+    window.location.href = `project.html?id=${projectId}`;
+  }
+
+  initProjectsPage();
+</script>
+</body>
+</html>

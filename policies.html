@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Policies – Vision Giants</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cyan: #06B6D4;
+    --cyan-dim: #0891B2;
+    --cyan-glow: rgba(6,182,212,0.18);
+    --white: #FFFFFF;
+    --gray: #E5E7EB;
+    --gray-mid: #9CA3AF;
+  }
+  [data-theme="dark"] {
+    --bg: #111827;
+    --bg2: #1F2937;
+    --bg3: #374151;
+    --text: #F9FAFB;
+    --text-sub: #D1D5DB;
+    --border: rgba(6,182,212,0.2);
+    --card: #1F2937;
+    --nav-bg: rgba(17,24,39,0.92);
+    --footer-bg: #0B0F1A;
+  }
+  [data-theme="light"] {
+    --bg: #F0F9FF;
+    --bg2: #FFFFFF;
+    --bg3: #E5E7EB;
+    --text: #111827;
+    --text-sub: #374151;
+    --border: rgba(6,182,212,0.3);
+    --card: #FFFFFF;
+    --nav-bg: rgba(240,249,255,0.92);
+    --footer-bg: #111827;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.35s, color 0.35s;
+    overflow-x: hidden;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+  button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
+
+  /* ═══ HEADER / NAV ═══ */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: var(--nav-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.35s;
+  }
+  .nav-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; gap: 32px;
+    padding: 0 32px; height: 68px;
+  }
+  .nav-end {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-img { width: 36px; height: 36px; }
+  .logo-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 1.15rem;
+    color: var(--white); letter-spacing: 0.05em; white-space: nowrap;
+  }
+  [data-theme="light"] .logo-text { color: #111827; }
+  .logo-text span { color: var(--cyan); }
+
+  .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+  .nav-links li { position: relative; }
+  .nav-links a {
+    display: flex; align-items: center; gap: 5px;
+    padding: 8px 14px; font-size: 0.9rem; font-weight: 500;
+    color: var(--text-sub); border-radius: 8px;
+    transition: color 0.2s, background 0.2s; white-space: nowrap;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--cyan); background: var(--cyan-glow); }
+
+  .theme-toggle {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cyan); transition: background 0.2s, transform 0.2s; flex-shrink: 0;
+  }
+  .theme-toggle:hover { background: var(--cyan-glow); transform: rotate(20deg); }
+  .theme-toggle svg { width: 18px; height: 18px; }
+
+  .cart-icon-btn {
+    position: relative;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text); transition: background 0.2s, border-color 0.2s;
+    flex-shrink: 0; text-decoration: none;
+  }
+  .cart-icon-btn:hover { background: var(--cyan-glow); border-color: var(--cyan); color: var(--cyan); }
+  .cart-icon-btn svg { width: 20px; height: 20px; }
+  .cartCount {
+    position: absolute; top: -5px; right: -5px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--cyan); color: #fff;
+    font-size: 0.65rem; font-weight: 700;
+    display: none; align-items: center; justify-content: center;
+    border: 2px solid var(--bg);
+  }
+
+  .btn-signin {
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 20px; background: var(--cyan); color: #fff;
+    border-radius: 24px; font-size: 0.87rem; font-weight: 600;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s; white-space: nowrap;
+  }
+  .btn-signin:hover { background: var(--cyan-dim); box-shadow: 0 0 20px rgba(6,182,212,0.5); transform: translateY(-1px); }
+  .btn-signin svg { width: 16px; height: 16px; }
+
+  /* ═══ MAIN ═══ */
+  .hero {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 120px 32px 60px;
+    text-align: center;
+    margin-top: 68px;
+  }
+
+  .hero-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--text-sub);
+    max-width: 600px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+  }
+
+  .toc {
+    max-width: 800px;
+    margin: 0 auto 80px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+  }
+
+  .toc-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+  }
+
+  .toc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .toc-list li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 10px;
+    transition: background 0.2s;
+    color: var(--text-sub);
+  }
+
+  .toc-list li a:hover {
+    background: var(--cyan-glow);
+    color: var(--cyan);
+  }
+
+  .toc-list li a::before {
+    content: '→';
+    color: var(--cyan);
+    font-weight: 700;
+  }
+
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  .policy-section {
+    margin-bottom: 60px;
+    scroll-margin-top: 100px;
+  }
+
+  .policy-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: var(--cyan);
+  }
+
+  .policy-date {
+    font-size: 0.85rem;
+    color: var(--text-sub);
+    margin-bottom: 24px;
+  }
+
+  .policy-text {
+    line-height: 1.8;
+    color: var(--text-sub);
+    margin-bottom: 16px;
+  }
+
+  .policy-text h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
+
+  .policy-text ul, .policy-text ol {
+    margin-left: 24px;
+    margin-bottom: 16px;
+  }
+
+  .policy-text li {
+    margin-bottom: 8px;
+  }
+
+  .policy-text a {
+    color: var(--cyan);
+    cursor: pointer;
+  }
+
+  .policy-text a:hover {
+    text-decoration: underline;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 60px 0;
+  }
+
+  .contact-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    margin-top: 60px;
+  }
+
+  .contact-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+
+  .contact-text {
+    color: var(--text-sub);
+    margin-bottom: 24px;
+    line-height: 1.7;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+  }
+
+  .contact-item a {
+    color: var(--cyan);
+  }
+
+  .contact-item a:hover {
+    text-decoration: underline;
+  }
+
+  /* ═══ FOOTER ═══ */
+  footer {
+    background: var(--footer-bg);
+    color: #9CA3AF;
+  }
+  .footer-top {
+    max-width: 1400px; margin: 0 auto;
+    padding: 70px 32px 50px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 48px;
+  }
+  @media (max-width: 900px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 580px) { .footer-top { grid-template-columns: 1fr; } }
+
+  .footer-brand .logo-text { font-size: 1.2rem; margin-bottom: 14px; display: block; }
+  .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 260px; }
+
+  .footer-socials { display: flex; gap: 10px; margin-top: 24px; }
+  .soc-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; color: #9CA3AF;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .soc-btn:hover { background: var(--cyan-glow); color: var(--cyan); border-color: var(--cyan); }
+
+  .footer-col h4 {
+    font-size: 0.82rem; font-weight: 700; color: #fff;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 18px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col li a {
+    font-size: 0.85rem; color: #9CA3AF;
+    transition: color 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .footer-col li a:hover { color: var(--cyan); }
+  .footer-col li a::before { content: '›'; color: var(--cyan); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 24px 32px;
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+    font-size: 0.8rem;
+  }
+  .footer-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge-pay {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px; padding: 5px 12px;
+    font-size: 0.75rem; color: #9CA3AF;
+    display: flex; align-items: center; gap: 5px;
+  }
+
+  .btt {
+    position: fixed; bottom: 28px; right: 28px; z-index: 500;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--cyan);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 1.2rem;
+    box-shadow: 0 4px 20px rgba(6,182,212,0.4);
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .btt.show { opacity: 1; transform: translateY(0); }
+  .btt:hover { background: var(--cyan-dim); }
+
+  @media (max-width: 768px) {
+    .hero { padding: 80px 20px 40px; }
+    .hero-title { font-size: 1.8rem; }
+    .nav-links { display: none; }
+    .content { padding: 0 20px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <nav class="nav-inner">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="policies.html" class="active">Policies</a></li>
+    </ul>
+
+    <div class="nav-end">
+      <button class="theme-toggle" id="themeBtn" title="Toggle theme">
+        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+
+      <a href="cart.html" class="cart-icon-btn" title="View Cart">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="cartCount">0</span>
+      </a>
+
+      <div class="logo">
+        <img class="logo-img" src="logo.png" alt="Vision Giants logo" onerror="this.style.display='none'" />
+        <div class="logo-text">VISION <span>GIANTS</span></div>
+      </div>
+
+      <button class="btn-signin" onclick="openModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Sign In
+      </button>
+    </div>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1 class="hero-title">📋 Our Policies</h1>
+  <p class="hero-desc">At Vision Giants, we believe in transparency. Learn about our commitment to your privacy, product authenticity, and customer satisfaction.</p>
+</div>
+
+<div class="toc">
+  <h2 class="toc-title">Quick Navigation</h2>
+  <ul class="toc-list">
+    <li><a href="#privacy">Privacy Policy</a></li>
+    <li><a href="#terms">Terms of Service</a></li>
+    <li><a href="#refund">Refund Policy</a></li>
+    <li><a href="#shipping">Shipping Policy</a></li>
+    <li><a href="#authenticity">Authenticity Guarantee</a></li>
+  </ul>
+</div>
+
+<div class="content">
+
+  <!-- PRIVACY POLICY -->
+  <div class="policy-section" id="privacy">
+    <h2 class="policy-title">🔒 Privacy Policy</h2>
+    <p class="policy-date">Last Updated: January 2025</p>
+    
+    <div class="policy-text">
+      <p>Vision Giants ("we," "us," or "our") operates the Vision Giants website and mobile application. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our platform.</p>
+
+      <h3>Information We Collect</h3>
+      <p>We collect information you voluntarily provide, such as:</p>
+      <ul>
+        <li>Name, email address, and phone number</li>
+        <li>Billing and shipping addresses</li>
+        <li>Payment information (processed securely via encrypted channels)</li>
+        <li>Account login credentials</li>
+        <li>Product reviews and feedback</li>
+      </ul>
+
+      <h3>Automatic Information Collection</h3>
+      <p>When you browse our website, we automatically collect:</p>
+      <ul>
+        <li>IP address and browser type</li>
+        <li>Pages visited and time spent</li>
+        <li>Cookies and tracking pixels for enhanced user experience</li>
+        <li>Device information and location data (if permitted)</li>
+      </ul>
+
+      <h3>How We Use Your Information</h3>
+      <ul>
+        <li>Process and fulfill your orders</li>
+        <li>Send transactional emails (order confirmations, shipping updates)</li>
+        <li>Improve our website and services</li>
+        <li>Personalize your shopping experience</li>
+        <li>Comply with legal obligations</li>
+        <li>Prevent fraud and secure your account</li>
+      </ul>
+
+      <h3>Third-Party Sharing</h3>
+      <p>We do NOT sell your personal data. We may share information with:</p>
+      <ul>
+        <li>Payment processors (PCI-DSS compliant)</li>
+        <li>Shipping partners (FedEx, TCS, etc.)</li>
+        <li>Legal authorities (when required by law)</li>
+        <li>Service providers under strict confidentiality agreements</li>
+      </ul>
+
+      <h3>Data Security</h3>
+      <p>We implement industry-standard SSL encryption and security measures. However, no transmission over the internet is 100% secure. Use strong passwords and protect your account credentials.</p>
+
+      <h3>Your Rights</h3>
+      <p>You have the right to:</p>
+      <ul>
+        <li>Access your personal data</li>
+        <li>Request correction or deletion</li>
+        <li>Opt-out of marketing emails</li>
+        <li>Download your data in portable format</li>
+      </ul>
+
+      <h3>Contact Us</h3>
+      <p>For privacy concerns, email <a href="mailto:privacy@visiongiants.pk">privacy@visiongiants.pk</a></p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TERMS OF SERVICE -->
+  <div class="policy-section" id="terms">
+    <h2 class="policy-title">⚖️ Terms of Service</h2>
+    <p class="policy-date">Last Updated: January 2025</p>
+    
+    <div class="policy-text">
+      <p>By accessing and using Vision Giants' website and services, you accept and agree to be bound by the terms and provision of this agreement.</p>
+
+      <h3>Use License</h3>
+      <p>Permission is granted to temporarily download one copy of materials (information or software) on Vision Giants' website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:</p>
+      <ul>
+        <li>Modify or copy the materials</li>
+        <li>Use the materials for any commercial purpose or for any public display</li>
+        <li>Attempt to decompile or reverse engineer any software contained on the website</li>
+        <li>Remove any copyright or other proprietary notations from the materials</li>
+        <li>Transfer the materials to another person or "mirror" the materials on any other server</li>
+      </ul>
+
+      <h3>Disclaimer</h3>
+      <p>The materials on Vision Giants' website are provided on an 'as is' basis. Vision Giants makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+
+      <h3>Limitations</h3>
+      <p>In no event shall Vision Giants or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Vision Giants' website, even if Vision Giants or an authorized representative has been notified orally or in writing of the possibility of such damage.</p>
+
+      <h3>Accuracy of Materials</h3>
+      <p>The materials appearing on Vision Giants' website could include technical, typographical, or photographic errors. Vision Giants does not warrant that any of the materials on its website are accurate, complete, or current. Vision Giants may make changes to the materials contained on its website at any time without notice.</p>
+
+      <h3>Links</h3>
+      <p>Vision Giants has not reviewed all of the sites linked to its website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by Vision Giants of the site. Use of any such linked website is at the user's own risk.</p>
+
+      <h3>Modifications</h3>
+      <p>Vision Giants may revise these terms of service for its website at any time without notice. By using this website, you are agreeing to be bound by the then current version of these terms of service.</p>
+
+      <h3>Governing Law</h3>
+      <p>These terms and conditions are governed by and construed in accordance with the laws of Pakistan, and you irrevocably submit to the exclusive jurisdiction of the courts in that location.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- REFUND POLICY -->
+  <div class="policy-section" id="refund">
+    <h2 class="policy-title">💰 Refund Policy</h2>
+    <p class="policy-date">Last Updated: January 2025</p>
+    
+    <div class="policy-text">
+      <p>At Vision Giants, we stand behind our products with a 30-day hassle-free return and refund guarantee.</p>
+
+      <h3>Return Eligibility</h3>
+      <p>Products are eligible for return if:</p>
+      <ul>
+        <li>Return request is submitted within 30 days of delivery</li>
+        <li>Product is unused and in original, unopened packaging</li>
+        <li>All accessories and documentation are included</li>
+        <li>Product has no signs of tampering or damage from customer misuse</li>
+        <li>Original receipt or order confirmation is provided</li>
+      </ul>
+
+      <h3>Return Process</h3>
+      <ol>
+        <li>Contact our customer support at <a href="mailto:support@visiongiants.pk">support@visiongiants.pk</a></li>
+        <li>Provide order number and reason for return</li>
+        <li>Receive return authorization and shipping label</li>
+        <li>Pack product securely and ship to us</li>
+        <li>Product will be inspected upon receipt</li>
+      </ol>
+
+      <h3>Refund Timeline</h3>
+      <ul>
+        <li>Inspection: 5-7 business days after we receive the returned item</li>
+        <li>Processing: 3-5 business days after approval</li>
+        <li>Bank Transfer: 2-3 business days</li>
+      </ul>
+
+      <h3>Non-Refundable Items</h3>
+      <p>The following items are NOT eligible for refund:</p>
+      <ul>
+        <li>Customized or made-to-order products</li>
+        <li>Digital products or software (once downloaded)</li>
+        <li>Items damaged due to customer mishandling</li>
+        <li>Opened or used electronics (unless defective)</li>
+        <li>Items purchased during final clearance sales</li>
+      </ul>
+
+      <h3>Defective Products</h3>
+      <p>If you receive a defective product, we will replace it free of charge or issue a full refund, regardless of the 30-day window. Contact support with photos of the defect.</p>
+
+      <h3>Shipping Costs</h3>
+      <ul>
+        <li>We cover return shipping for defective items</li>
+        <li>Customer covers return shipping for non-defective returns (unless manufacturer error)</li>
+        <li>Original shipping costs are non-refundable</li>
+      </ul>
+
+      <h3>Exchanges</h3>
+      <p>Need a different size, color, or model? Exchanges are free within 30 days. Simply contact support and we'll process your exchange at no additional cost.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SHIPPING POLICY -->
+  <div class="policy-section" id="shipping">
+    <h2 class="policy-title">📦 Shipping Policy</h2>
+    <p class="policy-date">Last Updated: January 2025</p>
+    
+    <div class="policy-text">
+      <p>We ship to all major cities across Pakistan with fast, reliable, and tracked delivery.</p>
+
+      <h3>Shipping Partners</h3>
+      <ul>
+        <li><strong>TCS (Tranzum):</strong> Coverage to all cities, 2-5 business days</li>
+        <li><strong>FedEx:</strong> Express delivery for urgent orders, 1-3 business days</li>
+        <li><strong>Local Courier:</strong> Same-day/next-day delivery in Multan and nearby areas</li>
+      </ul>
+
+      <h3>Shipping Rates</h3>
+      <ul>
+        <li><strong>Free Shipping:</strong> Orders over Rs 25,000</li>
+        <li><strong>Standard Shipping:</strong> Rs 250 for orders under Rs 25,000</li>
+        <li><strong>Express Shipping:</strong> Rs 500 (1-2 business days, Karachi/Lahore)</li>
+        <li><strong>Same-Day Delivery:</strong> Rs 700 (Multan only, orders before 12 PM)</li>
+      </ul>
+
+      <h3>Delivery Timeline</h3>
+      <ul>
+        <li><strong>Processing:</strong> 1-2 business days (excludes weekends/holidays)</li>
+        <li><strong>Shipping:</strong> 2-5 business days (standard) or 1-2 business days (express)</li>
+        <li><strong>Total:</strong> 3-7 business days for standard delivery</li>
+      </ul>
+
+      <h3>Order Tracking</h3>
+      <p>All orders receive a tracking number via email within 24 hours of dispatch. Track your package in real-time using TCS/FedEx tracking systems or contact us for updates.</p>
+
+      <h3>Remote Areas</h3>
+      <p>Shipping to remote or mountainous areas may take 7-10 business days. Additional shipping charges may apply. Please provide accurate contact information.</p>
+
+      <h3>Shipping Address</h3>
+      <p>Please ensure your address includes:</p>
+      <ul>
+        <li>Full name and phone number</li>
+        <li>Complete street address</li>
+        <li>City and postal code</li>
+        <li>Any special delivery instructions</li>
+      </ul>
+
+      <h3>Damaged or Lost Shipments</h3>
+      <p>If your package arrives damaged:</p>
+      <ul>
+        <li>Do NOT refuse the package; accept it and document the damage</li>
+        <li>Take photos of the packaging and damaged contents</li>
+        <li>Contact us within 48 hours with photos and order number</li>
+        <li>We will file a claim with the courier and send a replacement at no cost</li>
+      </ul>
+
+      <h3>Lost Shipments</h3>
+      <p>If your package doesn't arrive within the promised timeframe:</p>
+      <ul>
+        <li>Check tracking status for updates</li>
+        <li>Wait an additional 3-5 business days</li>
+        <li>Contact us with order details; we'll file a claim</li>
+        <li>Once claim is approved, we'll send a replacement or issue a full refund</li>
+      </ul>
+
+      <h3>International Shipping</h3>
+      <p>Currently, Vision Giants ships only within Pakistan. International orders are not available at this time. We're working on expanding our reach!</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- AUTHENTICITY GUARANTEE -->
+  <div class="policy-section" id="authenticity">
+    <h2 class="policy-title">✅ Authenticity Guarantee</h2>
+    <p class="policy-date">Last Updated: January 2025</p>
+    
+    <div class="policy-text">
+      <p>At Vision Giants, authenticity is our promise. Every product is 100% original and sourced directly from authorized distributors and manufacturers.</p>
+
+      <h3>Our Commitment</h3>
+      <p>We guarantee that every product sold on Vision Giants is:</p>
+      <ul>
+        <li>✓ 100% Authentic and Original</li>
+        <li>✓ Never counterfeit, refurbished, or used</li>
+        <li>✓ In original, factory-sealed packaging</li>
+        <li>✓ Backed by full manufacturer warranty</li>
+        <li>✓ Sourced from authorized distributors only</li>
+      </ul>
+
+      <h3>Why You Can Trust Us</h3>
+      <ul>
+        <li><strong>Direct Supplier Relationships:</strong> We work directly with manufacturers and authorized distributors, eliminating middlemen and counterfeit risks</li>
+        <li><strong>Rigorous Quality Checks:</strong> Every product undergoes inspection before shipping</li>
+        <li><strong>Transparent Sourcing:</strong> We provide batch/serial number verification for high-value items</li>
+        <li><strong>Warranty Support:</strong> Full manufacturer warranty honored on all products</li>
+        <li><strong>Industry Certifications:</strong> Vision Giants is verified and certified by relevant electronics authorities</li>
+      </ul>
+
+      <h3>How We Verify Authenticity</h3>
+      <ol>
+        <li>Supplier verification: All suppliers are audited and verified</li>
+        <li>Product inspection: Physical inspection of packaging and build quality</li>
+        <li>Serial number validation: Cross-reference with manufacturer databases</li>
+        <li>Hologram/security feature check: Verification of anti-counterfeiting measures</li>
+        <li>Documentation review: Inspection of warranty cards and certificates</li>
+      </ol>
+
+      <h3>Suspect a Counterfeit?</h3>
+      <p>If you believe a product is not authentic:</p>
+      <ul>
+        <li>Contact us immediately with order number and photos</li>
+        <li>Do not open or use the product</li>
+        <li>We will arrange immediate pickup and full refund</li>
+        <li>We'll also investigate the supplier and report to authorities if needed</li>
+      </ul>
+
+      <h3>Authenticity Guarantee Promise</h3>
+      <p>If we cannot verify authenticity within 7 days:</p>
+      <ul>
+        <li>Full refund + Rs 1,000 compensation</li>
+        <li>Free return shipping covered by Vision Giants</li>
+        <li>Lifetime discount on next purchase</li>
+      </ul>
+
+      <h3>Manufacturer Warranty</h3>
+      <p>All Vision Giants products include full manufacturer warranty. We handle all warranty claims on your behalf:</p>
+      <ul>
+        <li>1-Year Standard Warranty: Covers manufacturing defects</li>
+        <li>Extended Warranty: Available for purchase (optional)</li>
+        <li>On-Site Support: Available for select products</li>
+      </ul>
+
+      <h3>Product Documentation</h3>
+      <p>Every product includes:</p>
+      <ul>
+        <li>Original manufacturer box and packaging</li>
+        <li>Official warranty card with hologram</li>
+        <li>User manual and technical documentation</li>
+        <li>Authenticity certificate (for high-value items)</li>
+      </ul>
+
+      <h3>Contact Authenticity Team</h3>
+      <p>Questions about product authenticity? Reach out:</p>
+      <ul>
+        <li>Email: <a href="mailto:authenticity@visiongiants.pk">authenticity@visiongiants.pk</a></li>
+        <li>Phone: +92 61 000-1234</li>
+        <li>Hours: Monday-Friday, 9 AM - 6 PM (PKT)</li>
+      </ul>
+
+      <h3>Counterfeit Reporting</h3>
+      <p>Help us combat counterfeits! If you discover counterfeit Vision Giants products elsewhere, report them to:</p>
+      <ul>
+        <li>Email: <a href="mailto:fraud@visiongiants.pk">fraud@visiongiants.pk</a></li>
+        <li>We work with law enforcement to prosecute counterfeit operations</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="contact-section">
+    <h2 class="contact-title">❓ Questions About Our Policies?</h2>
+    <p class="contact-text">We're here to help! Reach out to our support team for clarifications or concerns about any of our policies.</p>
+    <div class="contact-info">
+      <div class="contact-item">
+        <span>📧</span>
+        <a href="mailto:support@visiongiants.pk">support@visiongiants.pk</a>
+      </div>
+      <div class="contact-item">
+        <span>📞</span>
+        <a href="tel:+926100001234">+92 61 000-1234</a>
+      </div>
+      <div class="contact-item">
+        <span>📍</span>
+        <span>Tech Boulevard, Innovation District, Multan 60000</span>
+      </div>
+      <div class="contact-item">
+        <span>⏰</span>
+        <span>Monday-Friday, 9 AM - 6 PM (PKT)</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="logo-text">VISION <span style="color:var(--cyan)">GIANTS</span></span>
+      <p>Pakistan's premier destination for authentic, cutting-edge electronics. Powering the curious, the creators, and the collectors.</p>
+      <div class="footer-socials">
+        <a class="soc-btn" href="#" title="Facebook">𝑓</a>
+        <a class="soc-btn" href="#" title="Instagram">📸</a>
+        <a class="soc-btn" href="#" title="Twitter / X">𝕏</a>
+        <a class="soc-btn" href="#" title="YouTube">▶</a>
+        <a class="soc-btn" href="#" title="WhatsApp">💬</a>
+        <a class="soc-btn" href="#" title="LinkedIn">in</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="products.html?category=3dprinters">3D Printers</a></li><li><a href="products.html?category=displaymodules">Display Modules</a></li><li><a href="products.html?category=hardwaremegtaterials">Hardware Materials</a></li><li><a href="products.html?category=arduino">Arduino Interface</a></li><li><a href="products.html?category=robotics">Robotics & Parts</a></li><li><a href="products.html?category=quadcopter">Quadcopter & Parts</a></li><li><a href="products.html?category=diyprojects">DIY Projects</a></li></ul></div>
+    <div class="footer-col"><h4>Projects</h4><ul><li><a href="projects.html?category=fyp">Final Year Projects</a></li><li><a href="projects.html?category=arduino-projects">Arduino Projects</a></li><li><a href="projects.html?category=iot">IoT Projects</a></li><li><a href="projects.html?category=robotics-projects">Robotics Projects</a></li><li><a href="projects.html?category=drone-projects">Drone Projects</a></li><li><a href="projects.html?category=3dprint-projects">3D Printing Projects</a></li><li><a href="projects.html?category=smarthome-projects">Smart Home Projects</a></li></ul></div>
+    <div class="footer-col"><h4>Policies</h4><ul><li><a href="policies.html#privacy">Privacy Policy</a></li><li><a href="policies.html#terms">Terms of Service</a></li><li><a href="policies.html#refund">Refund Policy</a></li><li><a href="policies.html#shipping">Shipping Policy</a></li><li><a href="policies.html#authenticity">Authenticity Guarantee</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="contact.html">About Us</a></li><li><a href="blog.html">Blog</a></li><li><a href="#">Press Kit</a></li><li><a href="#">Partners</a></li><li><a href="#">Affiliate Program</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Vision Giants. All rights reserved. Made with ⚡ in Pakistan.</p>
+    <div class="footer-badges">
+      <div class="badge-pay">💳 Visa</div>
+      <div class="badge-pay">💳 Mastercard</div>
+      <div class="badge-pay">🏦 EasyPaisa</div>
+      <div class="badge-pay">🏦 JazzCash</div>
+    </div>
+  </div>
+</footer>
+
+<button class="btt" id="btt">↑</button>
+
+<script src="shared.js"></script>
+</body>
+</html>

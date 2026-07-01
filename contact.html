@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact Us – Vision Giants</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cyan: #06B6D4;
+    --cyan-dim: #0891B2;
+    --cyan-glow: rgba(6,182,212,0.18);
+    --white: #FFFFFF;
+    --gray: #E5E7EB;
+    --gray-mid: #9CA3AF;
+  }
+  [data-theme="dark"] {
+    --bg: #111827;
+    --bg2: #1F2937;
+    --bg3: #374151;
+    --text: #F9FAFB;
+    --text-sub: #D1D5DB;
+    --border: rgba(6,182,212,0.2);
+    --card: #1F2937;
+    --nav-bg: rgba(17,24,39,0.92);
+    --footer-bg: #0B0F1A;
+  }
+  [data-theme="light"] {
+    --bg: #F0F9FF;
+    --bg2: #FFFFFF;
+    --bg3: #E5E7EB;
+    --text: #111827;
+    --text-sub: #374151;
+    --border: rgba(6,182,212,0.3);
+    --card: #FFFFFF;
+    --nav-bg: rgba(240,249,255,0.92);
+    --footer-bg: #111827;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.35s, color 0.35s;
+    overflow-x: hidden;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+  button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
+
+  /* ═══ HEADER / NAV ═══ */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: var(--nav-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.35s;
+  }
+  .nav-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; gap: 32px;
+    padding: 0 32px; height: 68px;
+  }
+  .nav-end {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-img { width: 36px; height: 36px; }
+  .logo-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 1.15rem;
+    color: var(--white); letter-spacing: 0.05em; white-space: nowrap;
+  }
+  [data-theme="light"] .logo-text { color: #111827; }
+  .logo-text span { color: var(--cyan); }
+
+  .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+  .nav-links li { position: relative; }
+  .nav-links a {
+    display: flex; align-items: center; gap: 5px;
+    padding: 8px 14px; font-size: 0.9rem; font-weight: 500;
+    color: var(--text-sub); border-radius: 8px;
+    transition: color 0.2s, background 0.2s; white-space: nowrap;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--cyan); background: var(--cyan-glow); }
+  .nav-links a svg { width: 14px; height: 14px; flex-shrink: 0; transition: transform 0.2s; }
+  .nav-links li:hover > a svg { transform: rotate(180deg); }
+
+  .dropdown {
+    position: absolute; top: calc(100% + 10px); left: 0;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 12px; width: 640px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    opacity: 0; pointer-events: none; transform: translateY(-8px);
+    transition: opacity 0.25s, transform 0.25s;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4); z-index: 200;
+  }
+  .nav-links li:hover .dropdown { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .drop-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px; border-radius: 10px; transition: background 0.2s; cursor: pointer;
+  }
+  .drop-item:hover { background: var(--cyan-glow); }
+  .drop-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--cyan-glow); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .drop-item:hover .drop-icon { background: var(--cyan); }
+  .drop-label { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+  .drop-sub { font-size: 0.73rem; color: var(--gray-mid); margin-top: 1px; }
+
+  .search-bar {
+    display: flex; align-items: center;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 24px; padding: 7px 16px; gap: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s; min-width: 200px;
+  }
+  .search-bar:focus-within { border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-glow); }
+  .search-bar svg { width: 16px; height: 16px; color: var(--gray-mid); flex-shrink: 0; }
+  .search-bar input { border: none; background: none; outline: none; font-size: 0.87rem; color: var(--text); width: 100%; }
+  .search-bar input::placeholder { color: var(--gray-mid); }
+
+  .theme-toggle {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cyan); transition: background 0.2s, transform 0.2s; flex-shrink: 0;
+  }
+  .theme-toggle:hover { background: var(--cyan-glow); transform: rotate(20deg); }
+  .theme-toggle svg { width: 18px; height: 18px; }
+
+  .cart-icon-btn {
+    position: relative;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text); transition: background 0.2s, border-color 0.2s;
+    flex-shrink: 0; text-decoration: none;
+  }
+  .cart-icon-btn:hover { background: var(--cyan-glow); border-color: var(--cyan); color: var(--cyan); }
+  .cart-icon-btn svg { width: 20px; height: 20px; }
+  .cartCount {
+    position: absolute; top: -5px; right: -5px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--cyan); color: #fff;
+    font-size: 0.65rem; font-weight: 700;
+    display: none; align-items: center; justify-content: center;
+    border: 2px solid var(--bg);
+  }
+
+  .btn-signin {
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 20px; background: var(--cyan); color: #fff;
+    border-radius: 24px; font-size: 0.87rem; font-weight: 600;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s; white-space: nowrap;
+  }
+  .btn-signin:hover { background: var(--cyan-dim); box-shadow: 0 0 20px rgba(6,182,212,0.5); transform: translateY(-1px); }
+  .btn-signin svg { width: 16px; height: 16px; }
+
+  /* ═══ SECTION COMMONS ═══ */
+  section { padding: 90px 32px; }
+  .section-inner { max-width: 1400px; margin: 0 auto; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.78rem; font-weight: 700; color: var(--cyan);
+    text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px;
+  }
+  .section-label::before, .section-label::after { content: ''; flex: 1; height: 1px; background: var(--cyan); width: 28px; }
+  .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .section-sub { color: var(--text-sub); max-width: 520px; line-height: 1.65; }
+
+  /* ═══ CONTACT PAGE ═══ */
+  .contact-hero {
+    min-height: 50vh; display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 100px 32px 60px;
+  }
+  .contact-hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700;
+    line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 24px;
+  }
+  .contact-hero h1 span { color: var(--cyan); }
+  .contact-hero p {
+    font-size: 1.05rem; color: var(--text-sub);
+    line-height: 1.7; max-width: 600px; margin: 0 auto;
+  }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 44px; }
+  @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }
+
+  .contact-info { display: flex; flex-direction: column; gap: 24px; }
+  .contact-item {
+    display: flex; gap: 16px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 16px; padding: 20px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .contact-item:hover { border-color: var(--cyan); box-shadow: 0 8px 24px rgba(6,182,212,0.12); }
+  .contact-ic {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--cyan-glow); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .contact-item h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 3px; }
+  .contact-item p { font-size: 0.82rem; color: var(--text-sub); line-height: 1.6; }
+
+  .contact-form {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 32px; display: flex;
+    flex-direction: column; gap: 16px;
+  }
+  .form-group { display: flex; flex-direction: column; gap: 7px; }
+  .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--text-sub); }
+  .form-group input, .form-group textarea {
+    padding: 12px 16px; background: var(--bg);
+    border: 1px solid var(--border); border-radius: 12px;
+    color: var(--text); font-size: 0.9rem; font-family: inherit;
+    outline: none; transition: border-color 0.2s; resize: none;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--cyan); }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--gray-mid); }
+
+  .btn-primary {
+    padding: 14px 32px; background: var(--cyan); color: #fff;
+    border-radius: 30px; font-weight: 600; font-size: 0.95rem;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    box-shadow: 0 0 28px rgba(6,182,212,0.35); cursor: pointer; border: none;
+    align-self: flex-start;
+  }
+  .btn-primary:hover { background: var(--cyan-dim); box-shadow: 0 0 40px rgba(6,182,212,0.55); transform: translateY(-2px); }
+
+  .form-status {
+    padding: 12px 16px; border-radius: 12px; font-size: 0.9rem;
+    display: none; margin-top: 8px;
+  }
+  .form-status.success { background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); }
+  .form-status.error { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+  /* ═══ FOOTER ═══ */
+  footer { background: var(--footer-bg); color: #9CA3AF; }
+  .footer-top { max-width: 1400px; margin: 0 auto; padding: 70px 32px 50px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 40px; }
+  @media (max-width: 900px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 580px) { .footer-top { grid-template-columns: 1fr; } }
+  .footer-brand .logo-text { font-size: 1.2rem; margin-bottom: 14px; display: block; }
+  .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 260px; }
+  .footer-socials { display: flex; gap: 10px; margin-top: 24px; }
+  .soc-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; color: #9CA3AF;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .soc-btn:hover { background: var(--cyan-glow); color: var(--cyan); border-color: var(--cyan); }
+  .footer-col h4 {
+    font-size: 0.82rem; font-weight: 700; color: #fff;
+    text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 18px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col li a {
+    font-size: 0.85rem; color: #9CA3AF;
+    transition: color 0.2s; display: flex; align-items: center; gap: 6px;
+  }
+  .footer-col li a:hover { color: var(--cyan); }
+  .footer-col li a::before { content: '›'; color: var(--cyan); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 24px 32px; max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px; font-size: 0.8rem;
+  }
+  .footer-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge-pay {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px; padding: 5px 12px; font-size: 0.75rem;
+    color: #9CA3AF; display: flex; align-items: center; gap: 5px;
+  }
+
+  .btt {
+    position: fixed; bottom: 28px; right: 28px; z-index: 500;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--cyan); display: flex;
+    align-items: center; justify-content: center;
+    color: #fff; font-size: 1.2rem;
+    box-shadow: 0 4px 20px rgba(6,182,212,0.4);
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s; cursor: pointer;
+  }
+  .btt.show { opacity: 1; transform: translateY(0); }
+  .btt:hover { background: var(--cyan-dim); }
+
+  @media (max-width: 1024px) {
+    .contact-hero { padding-top: 110px; }
+  }
+  @media (max-width: 768px) {
+    section { padding: 60px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <nav class="nav-inner">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li>
+        <a href="products.html">Products
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="dropdown">
+          <div class="drop-item" onclick="goToCategory('3dprinters')"><div class="drop-icon">🖨️</div><div><div class="drop-label">3D Printers</div><div class="drop-sub">FDM and resin printers</div></div></div>
+          <div class="drop-item" onclick="goToCategory('displaymodules')"><div class="drop-icon">🖥️</div><div><div class="drop-label">Display Modules</div><div class="drop-sub">TFT, OLED & more</div></div></div>
+          <div class="drop-item" onclick="goToCategory('hardwaremegtaterials')"><div class="drop-icon">🔧</div><div><div class="drop-label">Hardware Materials</div><div class="drop-sub">Converters & connectors</div></div></div>
+          <div class="drop-item" onclick="goToCategory('arduino')"><div class="drop-icon">🔌</div><div><div class="drop-label">Arduino Interface</div><div class="drop-sub">Modules & dev boards</div></div></div>
+          <div class="drop-item" onclick="goToCategory('robotics')"><div class="drop-icon">⚙️</div><div><div class="drop-label">Robotics & Parts</div><div class="drop-sub">Motors & actuators</div></div></div>
+          <div class="drop-item" onclick="goToCategory('quadcopter')"><div class="drop-icon">🚁</div><div><div class="drop-label">Quadcopter & Parts</div><div class="drop-sub">Drones & flight controllers</div></div></div>
+          <div class="drop-item" onclick="goToCategory('diyprojects')"><div class="drop-icon">🌾</div><div><div class="drop-label">DIY Projects</div><div class="drop-sub">Semester & FYP kits</div></div></div>
+        </div>
+      </li>
+      <li>
+        <a href="projects.html">Projects
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="dropdown">
+          <div class="drop-item" onclick="goToProjectCategory('fyp')"><div class="drop-icon">🎓</div><div><div class="drop-label">Final Year Projects</div><div class="drop-sub">Complete FYP solutions</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('arduino-projects')"><div class="drop-icon">🔌</div><div><div class="drop-label">Arduino Projects</div><div class="drop-sub">Mini & semester builds</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('iot')"><div class="drop-icon">📡</div><div><div class="drop-label">IoT Projects</div><div class="drop-sub">Connected device builds</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('robotics-projects')"><div class="drop-icon">🤖</div><div><div class="drop-label">Robotics Projects</div><div class="drop-sub">Autonomous & remote bots</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('drone-projects')"><div class="drop-icon">🚁</div><div><div class="drop-label">Drone Projects</div><div class="drop-sub">Custom-built quadcopters</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('3dprint-projects')"><div class="drop-icon">🖨️</div><div><div class="drop-label">3D Printing Projects</div><div class="drop-sub">Printed mechanisms & models</div></div></div>
+          <div class="drop-item" onclick="goToProjectCategory('smarthome-projects')"><div class="drop-icon">🏠</div><div><div class="drop-label">Smart Home Projects</div><div class="drop-sub">Home automation builds</div></div></div>
+        </div>
+      </li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+
+    <div class="search-bar">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search products…" />
+    </div>
+
+    <div class="nav-end">
+      <button class="theme-toggle" id="themeBtn" title="Toggle theme">
+        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+
+      <a href="cart.html" class="cart-icon-btn" title="View Cart">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="cartCount">0</span>
+      </a>
+
+      <div class="logo">
+        <img class="logo-img" src="logo.png" alt="Vision Giants logo" onerror="this.style.display='none'" />
+        <div class="logo-text">VISION <span>GIANTS</span></div>
+      </div>
+
+      <button class="btn-signin" onclick="openModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Sign In
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- CONTACT HERO SECTION -->
+<section class="contact-hero" style="padding-top:100px">
+  <div class="section-inner" style="width:100%;text-align:center">
+    <h1>Get In <span>Touch</span></h1>
+    <p>Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+  </div>
+</section>
+
+<!-- CONTACT CONTENT SECTION -->
+<section id="contact" style="padding-top:40px">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <!-- CONTACT INFO CARDS -->
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-ic">📍</div>
+          <div>
+            <h4>Our Store</h4>
+            <p>Vision Giants HQ, Tech Boulevard, Innovation District, Multan 60000, Pakistan</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-ic">📞</div>
+          <div>
+            <h4>Phone Support</h4>
+            <p>+92 61 000-1234<br>Mon–Sat, 9 AM – 9 PM</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-ic">✉️</div>
+          <div>
+            <h4>Email Us</h4>
+            <p>support@visiongiants.pk<br>Replies within 2 hours</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-ic">💬</div>
+          <div>
+            <h4>Live Chat</h4>
+            <p>Available 24/7 via website — tap the chat icon anytime</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-ic">⏱️</div>
+          <div>
+            <h4>Business Hours</h4>
+            <p>Monday - Saturday: 9 AM - 9 PM<br>Sunday: 12 PM - 8 PM</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT FORM -->
+      <div class="contact-form">
+        <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; margin-bottom: 8px;">Send us a Message</h3>
+        <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 20px;">Fill out the form below and we'll get back to you shortly.</p>
+
+        <form id="contactForm" onsubmit="handleContactSubmit(event)">
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Ahmed Khan" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="ahmed@email.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number (Optional)</label>
+            <input type="tel" id="phone" name="phone" placeholder="+92 300 1234567" />
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="Order issue, product question…" required />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Tell us how we can help…" required></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary" style="padding:14px 32px;margin-top:8px">Send Message →</button>
+          <div id="formStatus" class="form-status"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="logo-text">VISION <span style="color:var(--cyan)">GIANTS</span></span>
+      <p>Pakistan's premier destination for authentic, cutting-edge electronics. Powering the curious, the creators, and the collectors.</p>
+      <div class="footer-socials">
+        <a class="soc-btn" href="#" title="Facebook">𝑓</a>
+        <a class="soc-btn" href="#" title="Instagram">📸</a>
+        <a class="soc-btn" href="#" title="Twitter / X">𝕏</a>
+        <a class="soc-btn" href="#" title="YouTube">▶</a>
+        <a class="soc-btn" href="#" title="WhatsApp">💬</a>
+        <a class="soc-btn" href="#" title="LinkedIn">in</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="products.html?category=3dprinters">3D Printers</a></li><li><a href="products.html?category=displaymodules">Display Modules</a></li><li><a href="products.html?category=hardwaremegtaterials">Hardware Materials</a></li><li><a href="products.html?category=arduino">Arduino Interface</a></li><li><a href="products.html?category=robotics">Robotics & Parts</a></li><li><a href="products.html?category=quadcopter">Quadcopter & Parts</a></li><li><a href="products.html?category=diyprojects">DIY Projects</a></li></ul></div>
+    <div class="footer-col"><h4>Projects</h4><ul><li><a href="projects.html?category=fyp">Final Year Projects</a></li><li><a href="projects.html?category=arduino-projects">Arduino Projects</a></li><li><a href="projects.html?category=iot">IoT Projects</a></li><li><a href="projects.html?category=robotics-projects">Robotics Projects</a></li><li><a href="projects.html?category=drone-projects">Drone Projects</a></li><li><a href="projects.html?category=3dprint-projects">3D Printing Projects</a></li><li><a href="projects.html?category=smarthome-projects">Smart Home Projects</a></li></ul></div>
+    <div class="footer-col"><h4>Policies</h4><ul><li><a href="policies.html#privacy">Privacy Policy</a></li><li><a href="policies.html#terms">Terms of Service</a></li><li><a href="policies.html#refund">Refund Policy</a></li><li><a href="policies.html#shipping">Shipping Policy</a></li><li><a href="policies.html#authenticity">Authenticity Guarantee</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="contact.html">About Us</a></li><li><a href="blog.html">Blog</a></li><li></ul></div>
+  <div class="footer-bottom">
+    <p>© 2025 Vision Giants. All rights reserved. Made with ⚡ in Pakistan.</p>
+    <div class="footer-badges">
+      <div class="badge-pay">💳 Visa</div>
+      <div class="badge-pay">💳 Mastercard</div>
+      <div class="badge-pay">🏦 EasyPaisa</div>
+      <div class="badge-pay">🏦 JazzCash</div>
+    </div>
+  </div>
+</footer>
+
+<button class="btt" id="btt">↑</button>
+
+<script src="shared.js"></script>
+<script>
+  // Handle contact form submission
+  function handleContactSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const statusDiv = document.getElementById('formStatus');
+
+    // Get form data
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+
+    // Simulate form submission (in production, this would be an API call)
+    setTimeout(() => {
+      statusDiv.className = 'form-status success';
+      statusDiv.textContent = '✓ Message sent successfully! We\'ll get back to you soon.';
+      statusDiv.style.display = 'block';
+      form.reset();
+
+      // Hide status message after 5 seconds
+      setTimeout(() => {
+        statusDiv.style.display = 'none';
+      }, 5000);
+    }, 500);
+
+    console.log('Contact form submitted:', data);
+  }
+
+  // Back to top button
+  const btt = document.getElementById('btt');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      btt.classList.add('show');
+    } else {
+      btt.classList.remove('show');
+    }
+  });
+  btt.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>
